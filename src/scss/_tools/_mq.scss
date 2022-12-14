@@ -1,0 +1,14 @@
+@mixin mq($viewports, $constraint1: min, $constraint2: width) {
+    $min: min-#{$constraint2};
+    $max: max-#{$constraint2};
+
+    @if (type-of($viewports) == number) {
+        @media screen and (#{$constraint1}-#{$constraint2}: $viewports) {
+            @content;
+        }
+    } @else {
+        @media screen and ($min: nth($viewports, 1)) and ($max: nth($viewports, 2)) {
+            @content;
+        }
+    }
+}

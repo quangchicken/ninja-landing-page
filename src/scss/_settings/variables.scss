@@ -1,0 +1,74 @@
+//Layout
+$max-width: var(--page-width);
+$spacing: 0.8rem; // 16px
+
+
+//Font Family
+$font-title: var(--font-title-family);
+$font-title-weight: var(--font-title-weight);
+$font-body: var(--font-body-family);
+$font-body-weight: var(--font-body-weight);
+
+
+//Colour
+$theme-color: var(--theme-color, #103A4C);
+$color-dark: var(--color-dark, #030303);
+$color-light: var(--color-light, #ffff);
+$color-title: var(--color-title, #181818);
+
+$color-brand: var(--color-brand);
+$color-brand-purple: var(--color-brand-purple);
+$color-brand-blue: var(--color-brand-blue);
+$color-brand-red: var(--color-brand-red);
+
+$color-body: var(--color-body);
+$color-link: var(--color-link);
+$color-link-hover: var(--color-link-hover);
+
+$color-highlight: var(--color-highlight);
+
+$color-button: $color-brand;
+$color-button-text: $color-light;
+$color-button-border: $color-brand;
+
+$color-input: $color-light;
+$color-input-text: $color-link;
+
+$color-border-secondary: #dddddd;
+$color-border-primary: #acacac;
+$color-error: #cf142B;
+$color-disabled: #ededed;
+$color-dark-purple: #3C0A5B;
+$color-dark-red: #530A0A;
+$color-light-blue: #222F55;
+$color-grey:#4b4b4b;
+$color-grey2:#f5f5f5;
+$color-grey3:#616161;
+
+$inventory-low: #f4af29;
+$inventory-high: #54C63A;
+$inventory-back-order: #94E321;
+$inventory-made-to-order: #94E321;
+$inventory-soldout: #B6B6B6;
+
+$color-dark-rgb: var(--color-dark-rgb);
+$color-light-rgb: var(--color-light-rgb);
+$color-brand-rgb: var(--color-brand-rgb);
+$color-highlight-rgb: var(--color-highlight-rgb);
+
+
+//Breakingpoints
+$mq-mob: 480px;
+$mq-mob-small: 420px;
+$mq-mob-med: 560px;
+$mq-mob-lrg: 640px;
+
+$mq-tab: 768px;
+$mq-tab-sml: 820px;
+$mq-mob-med: 880px;
+$mq-tab-lrg: 920px;
+
+$mq-desk: 960px;
+$mq-desk-sml: 1024px;
+$mq-desk-med: 1280px;
+$mq-desk-lrg: 1440px;

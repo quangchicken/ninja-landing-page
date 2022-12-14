@@ -1,0 +1,25 @@
+@import "./_settings/core";
+
+button {
+    border: 0;
+    outline: none;
+    cursor: pointer;
+}
+
+.banner-button {
+    background-color: $color-light;
+    border: 0.2rem solid #4d8197;
+    box-shadow: 0.4rem 0.4rem 0px #1f6781;
+    border-radius: 5px;
+    @include font-size(16, 1.4);
+    font-weight: 600;
+    text-transform: capitalize;
+    padding: 0.8rem 1.6rem;
+    color: #103a4c;
+    cursor: pointer;
+    transition: 0.2s ease;
+
+    &:hover {
+        box-shadow: 0.2rem 0.2rem #1f6781;
+    }
+}

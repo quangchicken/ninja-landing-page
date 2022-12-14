@@ -1,0 +1,18 @@
+@import "./_settings/core.scss";
+
+.section {
+    background-color: var(--bg-color);
+    background-image: var(--bg-image);
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: calc(var(--pad-top) * 0.75) 0 calc(var(--pad-bottom) * 0.75);
+    overflow: hidden;
+
+    @include mq($mq-desk) {
+        padding: var(--pad-top) 0 var(--pad-top);
+    }
+
+    &__header {
+        margin-bottom: 3rem;
+    }
+}

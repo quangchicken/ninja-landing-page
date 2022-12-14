@@ -1,0 +1,63 @@
+@import "./_settings/core";
+
+.muticolumn {
+    &__inner {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    &__column {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+        @include mq((560px, 1025px)) {
+            width: var(--column-mob-width);
+        }
+
+        @include mq(1025px) {
+            width: var(--column-width);
+        }
+    }
+
+    &__content {
+        margin-top: auto;
+
+        @include mq(560px, max) {
+            margin-top: 30px;
+
+            .content {
+                text-align: center;
+            }
+        }
+
+        .spotlight-inner .sub_title {
+            font-size: calc(var(--fontsize-text-style) - var(--fontsize-text-style) / 10);
+        }
+
+        .spotlight-button {
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+
+            &.custom-button-style {
+                background-color: var(--bg-color-button) !important;
+            }
+        }
+
+        .image-zoom.adaptive_height {
+            @include mq(560px, max) {
+                padding-top: 40% !important;
+            }
+        }
+
+        .sub_title {
+            span {
+                white-space: nowrap;
+            }
+        }
+
+        a.button {
+            background-color: var(--bg-color-button);
+        }
+    }
+}

@@ -1,0 +1,101 @@
+@import "./_settings/core";
+
+$grid-columns: 6;
+
+.flexbox {
+    $self: &;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-right: -$spacing;
+    margin-left: -$spacing;
+    row-gap: var(--gap, 3rem);
+
+    &--middle {
+        align-items: center;
+    }
+
+    &--column {
+        flex-direction: column;
+    }
+
+    &--no-wrap {
+        flex-wrap: nowrap;
+    }
+
+    &--no-gap {
+        column-gap: unset;
+        margin: 0;
+
+        #{$self}__item {
+            padding: {
+                left: 0;
+                right: 0;
+            }
+        }
+    }
+
+    &--reverse {
+        flex-direction: row-reverse;
+    }
+
+    &--align-center {
+        align-items: center;
+    }
+
+    &--align-bottom {
+        align-self: flex-end;
+    }
+
+    &--horizontal {
+        width: 62.4%;
+    }
+
+    &__item {
+        width: var(--mob, 100%);
+        padding-right: $spacing;
+        padding-left: $spacing;
+
+        @include mq(($mq-mob, $mq-desk)) {
+            width: var(--tab, 50%);
+        }
+
+        @include mq($mq-desk) {
+            width: var(--desk, 33.333%);
+        }
+
+        @include mq($mq-desk) {
+            @for $i from 2 through $grid-columns {
+                &--#{$i} {
+                    width: 100% / $i;
+                }
+            }
+        }
+
+        &--carousel {
+            flex: 0 0 var(--mob, 100%);
+
+            @include mq(($mq-mob, $mq-desk)) {
+                flex: 0 0 var(--tab, 50%);
+            }
+
+            @include mq($mq-desk) {
+                flex: 0 0 var(--desk, 33.333%);
+            }
+        }
+
+        // SECTION CUSTOM
+        &--collection-banner {
+            min-width: 17rem;
+
+            @include mq(($mq-desk, $mq-desk-med)) {
+                width: var(--tab, 50%);
+            }
+
+            @include mq($mq-mob-med) {
+                width: var(--desk, 33.333%);
+            }
+        }
+    }
+}

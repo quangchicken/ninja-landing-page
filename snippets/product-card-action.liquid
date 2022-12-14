@@ -1,0 +1,61 @@
+<div class="card-action">
+    <form action="{{ routes.cart_url }}/add" method="post" class="variants" id="{{ id }}-{{ product.id }}-{{ sectionId }}" data-product-id="{{ product.id }}" enctype="multipart/form-data">
+        {%- if sold_out -%}
+            {%- if settings.show_notify_form -%}
+                <a class="button button-ATC is-notify-me" href="{{ product.url }}" data-btn-addToCart>
+                    {{ 'notify_form.general.label' | t }}
+                </a>
+            {%- else -%}
+                <a class="button button-ATC" href="{{ product.url }}" disabled="disabled">
+                    {{ 'products.product.out_of_stock' | t }}
+                </a>
+            {%- endif -%}
+        {%- else -%}
+            {%- if variantCount > 0 and product.variants.first.title != 'Default Title' -%}
+                {%- if product.options_with_values.size == 1 and product_swatch_option contains option_name and settings.show_swatch and settings.quick_shop_type == '1' -%}
+                    <input type="hidden" name="id" value="{{ product.variants[0].id }}" />
+                    <input type="hidden" name="quantity" value="1" />
+                    <button
+                        class="button button-ATC"
+                        type="submit"
+                        data-form-id="#{{ id }}-{{ product.id }}-{{ sectionId }}"
+                        data-btn-addToCart
+                    >
+                        {{ 'products.product.add_to_cart' | t }}
+                    </button>
+                {%- else -%}
+                    <a class="button button-ATC" href="{{ product.url }}">
+                        {{ 'products.product.select_options' | t }}
+                    </a>
+                {%- endif -%}
+            {%- else -%}
+                <input type="hidden" name="id" value="{{ product.variants[0].id }}" />
+                <input type="hidden" name="quantity" value="1" />
+                {%- liquid
+                    assign current_variant_grid = product.selected_or_first_available_variant
+                    assign first_inventory_grid = current_variant_grid.inventory_quantity
+                -%}
+        
+                {%- if first_inventory_grid > 0 -%}
+                    <button
+                        class="button button-ATC"
+                        type="submit"
+                        data-form-id="#{{ id }}-{{ product.id }}-{{ sectionId }}"
+                        data-btn-addToCart
+                    >
+                        {{ 'products.product.add_to_cart' | t }}
+                    </button>
+                {%- else -%}
+                    <button
+                        class="button button-ATC"
+                        type="submit"
+                        data-form-id="#{{ id }}-{{ product.id }}-{{ sectionId }}"
+                        data-btn-addToCart
+                    >
+                        {{ 'products.product.pre_order' | t }}
+                    </button>
+                {%- endif -%} 
+            {%- endif -%}
+        {%- endif -%}
+    </form>
+</div>

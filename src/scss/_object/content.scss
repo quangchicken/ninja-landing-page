@@ -1,0 +1,88 @@
+@import "./_settings/core";
+
+.content {
+    $self: &;
+
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    &__wrap {
+        height: 100%;
+
+        &--above {
+            order: -1;
+        }
+
+        &--located {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 1;
+            padding: 2rem 1rem;
+
+            @include mq($mq-desk) {
+                padding: 2rem 1.4rem;
+            }
+        }
+
+        &--below {
+            order: 1;
+        }
+    }
+
+    &--left {
+        text-align: left;
+        align-items: flex-start;
+    }
+
+    &--center {
+        align-items: center;
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    &--right {
+        text-align: right;
+        align-items: flex-end;
+        margin-left: auto;
+    }
+
+    &--top {
+        justify-content: flex-start;
+        align-self: flex-start;
+    }
+
+    &--middle {
+        justify-content: center;
+        align-self: center;
+    }
+
+    &--bottom {
+        justify-content: flex-end;
+        align-self: flex-end;
+    }
+
+    &__icon {
+        margin-bottom: 1.6rem;
+    }
+
+    &__title {
+        margin-bottom: 1rem;
+    }
+
+    &__subtitle {
+        margin-bottom: 2rem;
+    }
+
+    &__body {
+        color: $color-body;
+        margin-bottom: 2rem;
+
+        & > *:not(:last-child) {
+            margin-bottom: 2rem;
+        }
+    }
+}

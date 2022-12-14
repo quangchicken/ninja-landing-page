@@ -1,0 +1,124 @@
+// h1,
+// .h1 {
+//     @include font-size(40, 1.3333);
+//     font-weight: 700;
+
+//     @include mq($mq-desk) {
+//         @include font-size(60);
+//     }
+// }
+
+// h2,
+// .h2 {
+//     @include font-size(30, 1.4);
+//     font-weight: 600;
+
+//     @include mq($mq-desk) {
+//         @include font-size(48);
+//     }
+// }
+
+// h3,
+// .h3 {
+//     @include font-size(24, 1.4);
+//     font-weight: 600;
+
+//     @include mq($mq-desk) {
+//         @include font-size(36);
+//     }
+// }
+
+// h4,
+// .h4 {
+//     @include font-size(24, 1.6);
+//     font-weight: 600;
+
+//     @include mq($mq-desk) {
+//         @include font-size(30);
+//     }
+// }
+
+// h5,
+// .h5 {
+//     @include font-size(20, 1.4);
+//     font-weight: 600;
+
+//     @include mq($mq-desk) {
+//         @include font-size(24);
+//     }
+// }
+
+// h6,
+// .h6 {
+//     @include font-size(18, 1.6);
+
+//     @include mq($mq-desk) {
+//         @include font-size(20);
+//     }
+// }
+
+// .h7 {
+//     @include font-size(14, 1.4);
+
+//     @include mq($mq-desk) {
+//         @include font-size(16);
+//     }
+// }
+
+.text {
+    &-light {
+        color: $color-light;
+
+        *,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        .h0,
+        .h1,
+        .h2,
+        .h3,
+        .h4,
+        .h5,
+        .h6,
+        .h7 {
+            color: inherit;
+        }
+    }
+
+    &-dark {
+        color: $color-dark;
+
+        *,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        .h0,
+        .h1,
+        .h2,
+        .h3,
+        .h4,
+        .h5,
+        .h6,
+        .h7 {
+            color: inherit;
+        }
+    }
+
+    &-center {
+        text-align: center;
+    }
+
+    &-left {
+        text-align: left;
+    }
+
+    &-right {
+        text-align: right;
+    }
+}

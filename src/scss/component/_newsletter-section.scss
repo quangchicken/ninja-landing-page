@@ -1,0 +1,122 @@
+.newsletter-section {
+    position: relative;
+
+    .section-content {
+        max-width: 553px;
+        margin: 0 auto;
+
+        .subtitle {
+            font-size: var(--subtitle-font-size);
+            color: var(--subtitle-color);
+            font-weight: var(--subtitle-font-weight);
+            line-height: 1;
+
+            @media screen and (max-width: 1024px) {
+                font-size: var(--subtitle-font-size-mb);
+            }
+        }
+
+        .title {
+            font-size: var(--title-font-size);
+            color: var(--title-color);
+            font-weight: var(--title-font-weight);
+            line-height: 1.3;
+
+            @media screen and (max-width: 1024px) {
+                font-size: var(--title-font-size-mb);
+            }
+        }
+
+        .description {
+            font-size: var(--description-font-size);
+            color: var(--description-color);
+            font-weight: var(--description-font-weight);
+            line-height: 1.4;
+            margin-bottom: 25px;
+
+            @media screen and (max-width: 1024px) {
+                font-size: var(--description-font-size-mb);
+                margin-bottom: 20px;
+            }
+        }
+
+        .newsletter-form {
+            &__field-wrapper {
+                display: flex;
+                flex-direction: column;
+                flex-wrap: wrap;
+                row-gap: var(--form-gap);
+            }
+
+            &__button {
+                width: 100%;
+                max-width: var(--button-width);
+                font-size: var(--button-font-size);
+                color: var(--button-text-color);
+                background-color: var(--button-background);
+                text-transform: var(--button-text-transform);
+                font-weight: var(--button-font-weight);
+                border: 0.8px solid var(--button-border-color);
+                transition: all 0.2s ease;
+
+                &:hover {
+                    color: var(--button-text-color-hover);
+                    border-color: var(--button-border-color-hover);
+                    background-color: var(--button-background-hover);
+                }
+            }
+
+            &__policy {
+                font-size: 16px;
+                line-height: 1.5;
+                color: #000;
+                margin-top: 18px;
+            }
+        }
+
+        .field {
+            flex-wrap: wrap;
+            row-gap: var(--form-gap);
+
+            &__input {
+                width: 100%;
+                max-width: 390px;
+                margin: 0 auto;
+
+                &::placeholder {
+                    text-align: center;
+                    text-transform: uppercase;
+                    font-weight: 600;
+                }
+            }
+
+            &__select {
+                width: 100%;
+                max-width: 390px;
+                margin: 0 auto;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                background: transparent;
+                background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+                background-repeat: no-repeat;
+                background-position-x: 96%;
+                background-position-y: 8px;
+                border: 0.8px solid #000000;
+                background-color: #fff;
+                font-size: 16px;
+                line-height: 1.5;
+                text-align: center;
+                font-weight: 600;
+                padding: 8px 20px 10px;
+
+                option {
+                    padding: 4px;
+                    font-size: 16px;
+                    line-height: 1.5;
+                    font-weight: 600;
+                    color: #000;
+                }
+            }
+        }
+    }
+}
