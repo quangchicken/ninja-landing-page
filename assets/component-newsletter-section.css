@@ -8,7 +8,7 @@
 .newsletter-section .section-content .subtitle {
   font-size: var(--subtitle-font-size);
   color: var(--subtitle-color);
-  font-weight: var(--subtitle-font-weight);
+  font-weight: 400;
   line-height: 1; }
 
 @media screen and (max-width: 1024px) {
@@ -52,7 +52,10 @@
   text-transform: var(--button-text-transform);
   font-weight: var(--button-font-weight);
   border: 0.8px solid var(--button-border-color);
-  transition: all 0.2s ease; }
+  transition: all 0.2s ease;
+  margin-top: 23px;
+  max-width: 162px;
+  padding: 9px 0; }
 
 .newsletter-section .section-content .newsletter-form__button:hover {
   color: var(--button-text-color-hover);
@@ -63,16 +66,18 @@
   font-size: 16px;
   line-height: 1.5;
   color: #000;
-  margin-top: 18px; }
+  margin-top: 6px; }
 
 .newsletter-section .section-content .field {
   flex-wrap: wrap;
-  row-gap: var(--form-gap); }
+  row-gap: var(--form-gap);
+  max-width: 390px;
+  margin: 0 auto; }
 
 .newsletter-section .section-content .field__input {
   width: 100%;
-  max-width: 390px;
-  margin: 0 auto; }
+  padding-top: 8px;
+  padding-bottom: 8px; }
 
 .newsletter-section .section-content .field__input::placeholder {
   text-align: center;

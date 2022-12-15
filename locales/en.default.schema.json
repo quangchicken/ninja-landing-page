@@ -4667,16 +4667,12 @@
       }
     },
     "multicolumn": {
-      "name": "Multicolumn",
-      "settings": {
-        "column_1_image": "First Background Image",
-        "column_2_image": "Second Background Image"
-      },
+      "name": "Banner 3 Columns",
       "blocks": {
         "column": {
           "name": "Column",
           "width": "Column Desktop Width",
-          "mob_width": "Column MObile Width",
+          "mob_width": "Column Mobile Width",
           "name_mb": "Column Mobile",
           "info": "(Use for layout mobile List)",
           "info_1": "(Not For Layout 'Collections 03 Masonry')",
@@ -4692,6 +4688,10 @@
             }
           }
         }
+      },
+      "settings": {
+        "column_1_image": "First Background Image",
+        "column_2_image": "Second Background Image"
       },
       "presets": {
         "name": "Multicolumn"

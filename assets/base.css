@@ -2428,7 +2428,7 @@ input.form-input-hiddenPlaceholder::placeholder {
 }
 
 .mobile-header-2 .header-mobile--right .header-mobile--icon {
-    padding-right: 10px;
+    padding-right: 0;
 }
 
 .mobile-header-2 .header-mobile--right .header-mobile--icon + .header-mobile--icon {

@@ -259,7 +259,7 @@
 
                     {% if block.settings.heading != blank or block.settings.heading_mb != blank %}
                         {% if block.settings.heading != blank %}
-                            <h2 class="slide-heading slide-pc {% if block.settings.enable_border_heading %}has-border{% endif %}"
+                            <h2 class="slide-heading {% if block.settings.enable_border_heading %}has-border{% endif %}"
                                 style="{% if block.settings.font_size_heading != blank %}
                                         font-size: {{ block.settings.font_size_heading | append: 'px' }};
                                         line-height: {{ block.settings.line_height_heading | append: 'px' }};
@@ -300,7 +300,7 @@
 
                     {% if block.settings.slide-des != blank or block.settings.slide-des-mb != blank %}
                       {% if block.settings.slide-des != blank %}
-                        <p class="slide-text slide-pc"
+                        <p class="slide-text"
                             style="{% if block.settings.font_size_des != blank %}
                                     font-size: {{ block.settings.font_size_des | append: 'px' }};
                                     {% endif %}
@@ -374,6 +374,16 @@
                         .slide-block-{{ block.id }} .slide-content .slide-text {
                             max-width: 100%;
                             margin-bottom: {{ block.settings.des_spacing_bottom | append: 'px' }};
+                        }
+
+                        @media screen and (max-width: 1025px) {
+                            .slide-block-{{ block.id }} .adaptive_height {
+                                min-height: 50vh;
+                            }
+
+                            .slide-block-{{ block.id }} .adaptive_height img {
+                                object-fit: cover;
+                            }
                         }
 
                         .slide-block-{{ block.id }} .slide-content .slide-sub {
@@ -570,6 +580,7 @@
                             .slide-block-{{ block.id }} .slide-content .slide-text {
                                 color: {{ block.settings.color_des_mb }} !important;
                                 font-size: {{ block.settings.font_size_des_mb | append: 'px' }} !important;
+                                line-height: ;
                             }
 
                             .slide-block-{{ block.id }} .slide-content__person .profile-name-and-title .profile-name {

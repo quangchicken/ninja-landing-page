@@ -1,6 +1,6 @@
 {% if section.blocks.size > 0 %}
                 
-    <div class="brand-slider {% if section.settings.display_brand_border %} brand-slider--border {% endif %}  section-block-{{section.id}}" id="brands-{{section.id}}" {% if section.settings.brand_layout == 'slider' %}data-loader-script="{{ 'halo.slide-brand.js' | asset_url }}"{% endif %}>
+    <div class="brand-slider {{ section.settings.custom_class }} {% if section.settings.display_brand_border %} brand-slider--border {% endif %}  section-block-{{section.id}}" id="brands-{{section.id}}" {% if section.settings.brand_layout == 'slider' %}data-loader-script="{{ 'halo.slide-brand.js' | asset_url }}"{% endif %}>
         <div class="brands-block {% if section.settings.brand_layout == 'grid' %}brands-grid{% endif %}{% if section.settings.brands_block_style == 'style_2' %} brand_style_2{% elsif section.settings.brands_block_style == 'style_3' %} brand_style_3{% endif %}">
             <div class="{% if section.settings.container == 'fullwidth' %}container-full{% elsif section.settings.container == '1170' %}container-1170{% elsif section.settings.container == '1770' %}container-1770{% else %}container{% endif %}">
                 {% if section.settings.brands_block_style == 'style_3' %}
@@ -41,7 +41,7 @@
                             {% endif %}
                         </div>
                     {% endif %}
-                    <div class="halo-row column-{{ section.settings.brand_rows }} brands-slider halo-slider{% if section.settings.brand_rows_mb == '2' %} sm-column-2{% else %} sm-column-1{% endif %} md-column-3" {% if section.settings.brand_layout == 'slider' %}data-brands-slider{% endif %} data-rows="{{ section.settings.brand_rows }}" data-arrows="{{ section.settings.enable_arrows }}" data-dots="{{ section.settings.enable_dots }}" data-rows-mobile="{{ section.settings.brand_rows_mb }}" style="--row-distance-style: {{ section.settings.item_distance | prepend: '-' | append: 'px' }};">
+                    <div class="halo-row halo-row--mb-{{ section.settings.brand_rows_mb }} column-{{ section.settings.brand_rows }} brands-slider halo-slider{% if section.settings.brand_rows_mb == '2' %} sm-column-2{% else %} sm-column-1{% endif %} md-column-3" {% if section.settings.brand_layout == 'slider' %}data-brands-slider{% endif %} data-rows="{{ section.settings.brand_rows }}" data-arrows="{{ section.settings.enable_arrows }}" data-dots="{{ section.settings.enable_dots }}" data-rows-mobile="{{ section.settings.brand_rows_mb }}" style="--row-distance-style: {{ section.settings.item_distance | prepend: '-' | append: 'px' }};">
                         {% for block in section.blocks %}
                             <div class="halo-item item--{{ block.settings.box_shadow }} block-{{block.id}} {{ block.settings.text_align }}" id="block-{{block.id}}" style="--item-distance-style: {{ section.settings.item_distance | append: 'px' }};">
                                 {% if section.settings.brands_block_style == 'style_2' %}
@@ -312,9 +312,7 @@
             color: {{ color_title }};
             font-size: {{ fontsize_title | append: 'px'  }};
             margin-bottom: {{ mg_bottom_title | append: 'px' }};
-            {%- if fontsize_title > headingLineHeight -%}
-                line-height: {{ fontsize_title | append: 'px' }};
-            {%- endif -%}
+            line-height: 1.2;
         }
 
         {% if section.settings.view_all != blank %}
@@ -1124,6 +1122,14 @@
                     }, {
                         "value": "3",
                         "label": "t:sections.brand.settings.brand_rows.option3"
+                    },
+                    {
+                        "value": "4",
+                        "label": "4"
+                    },
+                    {
+                        "value": "5",
+                        "label": "5"
                     }
                 ],
                 "default": "1"
@@ -1132,6 +1138,11 @@
                 "id": "enable_hover_zoom_image",
                 "label": "t:settings_schema.typography.settings.typography.image_enable_hover_zoom",
                 "default": false
+            },
+            {
+                "type": "text",
+                "id": "custom_class",
+                "label": "Custom Class"
             }
         ],
         "blocks": [

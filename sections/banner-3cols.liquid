@@ -19,7 +19,7 @@
 -%}
 
 <div class="product-block muticolumn section-block-{{section.id}}" style="--grid-gap: {{ grid_gap }}">
-    <div class="{% if container == '1170' %}container-1170{% elsif container == '1770' %}container-1770{% elsif container == 'fullwidth'%}container-full{% elsif container == '1283'%}container-1283{% else %}container{% endif %}">
+    <div class="{% if container == '1170' %}container-1170{% elsif container == '1770' %}container-1770{% elsif container == 'fullwidth'%}container-full{% elsif container == '1280'%}container-1280{% else %}container{% endif %}">
         {%- if block_title != blank -%}
             <div class="halo-block-header text-{{ block_title_align }} block-title--{{section.settings.style_block_header}}{% if section.settings.view_all != blank %} viewAll--{{ section.settings.view_all_align }} has-viewAll{% endif %}{% if section.settings.style_countdown == 'style_2' %} countdown_style_2{% endif %} {% if block_title_align == 'left' and  section.settings.view_all_align == 'right' and countdown == blank %}items-aligned{% endif %}">
                 <h3 class="title">
@@ -157,7 +157,7 @@
                                         {%- if block.settings.btn_icon != blank -%}
                                             {{ block.settings.btn_icon }}
                                         {%- endif -%}
-                                        <span>{{ block.settings.button }}</span>
+                                        <span>{{ block.settings.button | strip}}</span>
                                     </a>
                                 {%- endif -%}
                             </div>
@@ -174,6 +174,7 @@
         assign product_bg = section.settings.product_bg
         assign product_bg_gradient = section.settings.product_bg_gradient
         assign product_bg_image = section.settings.product_bg_image
+        assign decore_bg_image = section.settings.decore_bg_image
 
         assign color_title = section.settings.color_title
         assign border_color_title = section.settings.border_color_title
@@ -448,13 +449,11 @@
     {% endif %}
 
     {% if product_bg_image != blank %}
-        @media screen and (min-width: 560px) {
-            .section-block-{{section.id}}{
-                background: url({{ product_bg_image | img_url: '1920x' }});
-                background-position-y: bottom;
-                background-size: 100vw 100%;
-                background-repeat: no-repeat;
-            }
+        .section-block-{{section.id}}{
+            background: url({{ product_bg_image | img_url: '1920x' }});
+            background-position-y: bottom;
+            background-size: 100vw 100%;
+            background-repeat: no-repeat;
         }
 
         @media screen and (min-width: 1025px) {
@@ -471,6 +470,24 @@
         .section-block-{{section.id}},
         .section-block-{{section.id}} .halo-block-header .title .text {
             background: {% if product_bg_gradient != blank %}{{ product_bg_gradient }}{% else %}{{ product_bg }}{% endif %};
+        }
+    {% endif %}
+
+    {% if decore_bg_image != blank %}
+        .section-block-{{section.id}} {
+            position: relative;
+        }
+
+        .section-block-{{section.id}}::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            max-width: 723px;
+            background: url({{ decore_bg_image | img_url: '800px' }});
+            background-size: 100vw 100%;
+            background-repeat: no-repeat;
         }
     {% endif %}
 
@@ -921,8 +938,8 @@
                 "label": "t:sections.layout.container.option3"
             },
             {
-                "value": "1283",
-                "label": "1283px"
+                "value": "1280",
+                "label": "1280px"
             },
             {
                 "value": "fullwidth",
@@ -1094,6 +1111,11 @@
     {
         "type" : "image_picker",
         "id" : "product_bg_image",
+        "label" : "t:settings_schema.colors.settings.colors_name.background_image"
+    },
+    {
+        "type" : "image_picker",
+        "id" : "decore_bg_image",
         "label" : "t:settings_schema.colors.settings.colors_name.background_image"
     },
     {
@@ -1526,12 +1548,12 @@
     "blocks": [
         {
         "type": "image",
-        "name": "t:sections.spotlight_block.blocks.image.smallImg",
+        "name": "Column",
         "settings": [
         {
             "type": "range",
             "id": "column_width",
-            "label": "t:sections.multicolumn.blocks.column.width",
+            "label": "Column Width",
             "min": 0,
             "max": 100,
             "step": 1,
@@ -1541,7 +1563,7 @@
         {
             "type": "range",
             "id": "mob_column_width",
-            "label": "t:sections.multicolumn.blocks.column.mob_width",
+            "label": "Column Mobile Width",
             "min": 0,
             "max": 100,
             "step": 1,

@@ -10,8 +10,8 @@ instagram-block-load,
 }
 
 .instagram-slide .halo-row .halo-item {
-    padding-right: 2.5px;
-    padding-left: 2.5px;
+    padding-right: var(--grid-gap);
+    padding-left: var(--grid-gap);
     margin-bottom: 5px;
 }
 

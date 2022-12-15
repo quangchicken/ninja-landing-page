@@ -160,8 +160,6 @@
         .announcement-bar .announcement-bar__message svg {
             display: inline-block;
             vertical-align: middle;
-            width: 16px;
-            height: 16px;
         }
 
         .announcement-bar .layout--scroll .announcement-bar__message .underline {
@@ -172,12 +170,19 @@
 
         .announcement-bar__message, .announcement-bar__message .message, .announcement-bar__message a, .announcement-bar__message p, .top-mesage-countdown {
             color: {{ section.settings.color_text }};
-            font-size: {{ section.settings.font_size_text | append: 'px' }};
+            font-size: {{ section.settings.font_size_text | minus: 3 | append: 'px' }};
             font-style: {{ section.settings.font_style_text }};
             font-weight: {{ section.settings.font_weight_text }};
+            line-height: 1.5;
             {% unless section.settings.enable_close %}
                 letter-spacing: 0;
             {% endunless %}
+        }
+
+        @media screen and (min-width: 1025px) {
+            .announcement-bar__message, .announcement-bar__message .message, .announcement-bar__message a, .announcement-bar__message p, .top-mesage-countdown {
+                font-size: {{ section.settings.font_size_text | append: 'px' }};
+            }
         }
 
         .announcement-bar .announcement-close.hasCountDown {

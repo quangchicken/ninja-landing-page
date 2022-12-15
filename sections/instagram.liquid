@@ -68,7 +68,7 @@
             </div>
         {% endif %}
     </div>
-    <{% if check_load %}instagram-block-load{% else %}div{% endif %} class="{% if section.settings.container == 'fullwidth' %}container-full{% elsif section.settings.container == '1770' %}container-1770{% else %}container{% endif %}">
+    <{% if check_load %}instagram-block-load{% else %}div{% endif %} class="{% if section.settings.container == 'fullwidth' %}container-full{% elsif section.settings.container == '1770' %}container-1770{% else %}container-1280{% endif %}">
         {% if section.settings.type_instagram == 'app' %}
             <div class="caption-instagram">
               {{ section.settings.embed_code }}

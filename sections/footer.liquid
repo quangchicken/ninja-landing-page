@@ -257,42 +257,44 @@
      
     {%- if show_extra_infomation -%}
         <div class="footer__content-bottom">
-            <div class="footer-block__bottom {% unless section.settings.enable_layout_grid %}not_flex{% endunless %} {% if show_payment == false or payment_position != 7 %}not_payment{% endif %}">
-                {%- if show_copyright -%}
-                    <div class="footer__column-item footer__copyright">
-                        <small class="copyright__content">{{ section.settings.copyright_content }}</small>
-                    </div>
-                {%- endif -%}
-                <div class="footer__column footer__column--info">
-                    {%- if show_payment and payment_position == 7 -%}
-                        <div class="footer__column-item footer__payment">
-                            <span class="visually-hidden">{{ 'sections.footer.payment' | t }}</span>
-                            <ul class="list list-payment clearfix" role="list">
-                                {%- if section.settings.payment_type == 'default' -%}
-                                    {% comment %}
-                                    {% assign enabled_payment_types = 'visa,master,american_express,paypal' | remove: ' ' | split: ',' %}
-                                    {% endcomment %}
-                                    {%- for type in shop.enabled_payment_types -%}
-                                        <li class="list-payment__item">
-                                            {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
-                                        </li>
-                                    {%- endfor -%}
-                                {%- else -%}
-                                    {% assign payment_string = 'visa,master,maestro,american_express,apple_pay,bitcoin,dankort,diners_club,discover,paypal,dogecoin,dwolla,forbrugsforeningen,jcb,litecoin,afterpay,google_pay,ideal,klarna,klarna-pay-later,shopify_pay,sofort' %}
-                                    {% assign methods = payment_string | split: ',' %}
-                                    {%- for method in methods -%}
-                                        {%- assign show_current_method = method | prepend: 'show_payment_' -%}
-                                        {% if section.settings[show_current_method] %}
-                                            <li class="list-payment__item {{method}}">
-                                                {{ method | payment_type_svg_tag: class: 'icon icon--full-color' }}
-                                            </li>
-                                            {% endif %}
-                                    {%- endfor -%}
-                                {%- endif -%}
-                            </ul>
+            <div class="container">
+                <div class="footer-block__bottom {% unless section.settings.enable_layout_grid %}not_flex{% endunless %} {% if show_payment == false or payment_position != 7 %}not_payment{% endif %}">
+                    {%- if show_copyright -%}
+                        <div class="footer__column-item footer__copyright">
+                            <small class="copyright__content">{{ section.settings.copyright_content }}</small>
                         </div>
                     {%- endif -%}
-                    
+                    <div class="footer__column footer__column--info">
+                        {%- if show_payment and payment_position == 7 -%}
+                            <div class="footer__column-item footer__payment">
+                                <span class="visually-hidden">{{ 'sections.footer.payment' | t }}</span>
+                                <ul class="list list-payment clearfix" role="list">
+                                    {%- if section.settings.payment_type == 'default' -%}
+                                        {% comment %}
+                                        {% assign enabled_payment_types = 'visa,master,american_express,paypal' | remove: ' ' | split: ',' %}
+                                        {% endcomment %}
+                                        {%- for type in shop.enabled_payment_types -%}
+                                            <li class="list-payment__item">
+                                                {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
+                                            </li>
+                                        {%- endfor -%}
+                                    {%- else -%}
+                                        {% assign payment_string = 'visa,master,maestro,american_express,apple_pay,bitcoin,dankort,diners_club,discover,paypal,dogecoin,dwolla,forbrugsforeningen,jcb,litecoin,afterpay,google_pay,ideal,klarna,klarna-pay-later,shopify_pay,sofort' %}
+                                        {% assign methods = payment_string | split: ',' %}
+                                        {%- for method in methods -%}
+                                            {%- assign show_current_method = method | prepend: 'show_payment_' -%}
+                                            {% if section.settings[show_current_method] %}
+                                                <li class="list-payment__item {{method}}">
+                                                    {{ method | payment_type_svg_tag: class: 'icon icon--full-color' }}
+                                                </li>
+                                                {% endif %}
+                                        {%- endfor -%}
+                                    {%- endif -%}
+                                </ul>
+                            </div>
+                        {%- endif -%}
+                        
+                    </div>
                 </div>
             </div>
         </div>

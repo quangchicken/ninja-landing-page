@@ -44,7 +44,7 @@
 <div class="product-block section-block-{{section.id}}" style="--grid-gap: {{ grid_gap }}">
     {%- if block_title != blank -%}
         {%- if section.settings.style_block_header == 'style3' or section.settings.style_block_header == 'style4' -%}
-            <div class="{% if container == '1170' %}container-1170{% elsif container == '1770' %}container-1770{% elsif container == 'fullwidth'%}container-full{% elsif container == '1283'%}container-1283{% else %}container{% endif %}">
+            <div class="{% if container == '1170' %}container-1170{% elsif container == '1770' %}container-1770{% elsif container == 'fullwidth'%}container-full{% elsif container == '1280'%}container-1280{% else %}container{% endif %}">
                 <div class="halo-block-header text-{{ block_title_align }} block-title--{{section.settings.style_block_header}}{% if section.settings.view_all != blank %} viewAll--{{ section.settings.view_all_align }} has-viewAll{% endif %}{% if section.settings.style_countdown == 'style_2' %} countdown_style_2{% endif %} {% if block_title_align == 'left' and  section.settings.view_all_align == 'right' and countdown == blank %}items-aligned{% endif %}">
                     <h3 class="title">
                         <span class="text">{{ block_title | escape }}</span>
@@ -223,153 +223,6 @@
                         {% endif %}
                     </div>
                 {%- endif -%}
-                {% if layout == 'scroll' %}
-                    <product-scroller>
-                {% endif %}
-                    <div class="halo-block-content {% if layout == 'scroll' %}is-scroll{% endif %}{% if section.settings.enable_layout_special %} enable_layout_special{% endif %}"  {% if layout == 'scroll' %}data-drag-container{% endif %}>
-                        {%- if layout== 'grid' -%}
-                            {%- liquid
-                                assign product_limit = 0
-                                assign column = section.settings.product_block_per_row
-                                if infinite_scroll
-                                    assign product_limit = limit
-                                endif
-                            -%}
-                            <div class="products-grid column-{{ column }}{% if swipe %} slider slider--tablet grid grid--peek{% endif %}" data-products-to-show="{{ limit }}">
-                        {%- elsif layout == 'slider' -%}
-                            {%- liquid
-                                assign column = section.settings.product_block_show
-                                assign dots = section.settings.product_block_dots
-                                assign dots_mb = section.settings.product_block_dots_mb
-                                assign arrows = section.settings.product_block_arrows
-                                assign arrows_mb = section.settings.product_block_arrows_mb
-                            -%}
-                            <div class="products-carousel column-{{ column }}"
-                                data-item-to-show="{{ column }}"
-                                data-item-dots="{{ dots }}"
-                                data-item-dots-mb="{{ dots_mb }}"
-                                data-item-arrows="{{ arrows }}"
-                                data-item-arrows-mb="{{ arrows_mb }}"
-                            >
-                        {% elsif layout == 'scroll' %}
-                            {% liquid
-                                assign column = section.settings.product_block_per_view 
-                                assign show_half = section.settings.show_half 
-
-                                assign scroll_height = section.settings.scroll_height | append: 'px'
-                                assign scroll_track_bg = section.settings.scroll_track_bg
-                                assign scroll_thumb_color = section.settings.scroll_thumb_color
-                                assign scroll_thumb_hover_color = section.settings.scroll_thumb_hover_color
-                                assign enable_hover_drag_icon = section.settings.enable_hover_drag_icon
-                            %}
-                        <div class="products-cursor handleMouseLeave" data-enable-hover="{{ enable_hover_drag_icon }}"> 
-                                <div class="products-cursor__outer">    
-                                    <div class="products-cursor__inner">
-                                        <img src="{{ 'bg-cursor.png' | asset_url }}" alt="Cursor" class="products-cursor__image">
-                                        <svg viewBox="0 0 448 512" fill="none" aria-hidden="true" focusable="false" role="presentation" class="icon icon-arrow products-cursor__icon" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M311.03 131.515l-7.071 7.07c-4.686 4.686-4.686 12.284 0 16.971L387.887 239H12c-6.627 0-12 5.373-12 12v10c0 6.627 5.373 12 12 12h375.887l-83.928 83.444c-4.686 4.686-4.686 12.284 0 16.971l7.071 7.07c4.686 4.686 12.284 4.686 16.97 0l116.485-116c4.686-4.686 4.686-12.284 0-16.971L328 131.515c-4.686-4.687-12.284-4.687-16.97 0z"></path>
-                                        </svg>
-                                    </div>
-                                </div>
-                            </div>
-                            <div 
-                                class="products-flex disable-srollbar-mb column-{{ column }}{% if show_half %} show-half{% endif %}{% if swipe %} slider slider--tablet grid{% endif %}" 
-                                data-drag-parent
-                                style="--count: {{ column }};
-                                    --scrollbar-height: {{ scroll_height }};
-                                    --scrollbar-track-color: {% if scroll_track_bg != blank and scroll_track_bg != 'rgba(0,0,0,0)' %}{{ scroll_track_bg }} {% endif %};
-                                    --scrollbar-thumb-color: {% if scroll_thumb_color != blank and scroll_thumb_color != 'rgba(0,0,0,0)' %}{{ scroll_thumb_color }} {% endif %};
-                                    --scrollbar-thumb-hover-color: {% if scroll_thumb_hover_color != blank and scroll_thumb_hover_color != 'rgba(0,0,0,0)' %}{{ scroll_thumb_hover_color }} {% endif %};
-                                "
-                            >
-                        {%- endif -%}
-                            {%- for tag in current_tags -%}
-                                {%- if tag contains 'limit=' -%}
-                                    {%- assign limit = tag | remove: 'limit=' -%}
-                                {%- elsif tag contains 'sectionId=' -%}
-                                    {%- assign sectionId = tag | remove: 'sectionId=' -%}
-                                {%- elsif tag contains 'imageRatio=' -%}
-                                    {%- assign image_ratio = tag | remove: 'imageRatio=' -%}
-                                {%- elsif tag contains 'swipe=' -%}
-                                    {%- assign swipe = tag | remove: 'swipe=' -%}
-                                {%- elsif tag contains 'hasCountdown=' -%}
-                                    {%- assign hasCountdown = tag | remove: 'hasCountdown=' -%}
-                                {%- endif -%}
-                            {%- endfor -%}
-
-                            {%- if collection.products[0] != nil -%}
-                                {%- for product in collection.products limit: limit -%}
-                                    <div class="product{% if swipe == 'true' %} slider__slide grid__item{% endif %}">
-                                        {% render 'product-grid-layout',
-                                            product_card_product: product,
-                                            portrait_aspect_ratio: '125',
-                                            serial: forloop.index,
-                                            sectionId: sectionId,
-                                            media_size: image_ratio,
-                                            hasCountdown: hasCountdown,
-                                            loading: true
-                                        %}
-                                    </div>
-                                {%- endfor -%}
-                            {%- else -%}
-                                {%- for product in (1..limit) -%}
-                                    <div class="product{% if swipe %} slider__slide grid__item{% endif %}">
-                                        {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
-                                        {% render 'product-card-placeholder',
-                                            index: current
-                                        %}
-                                    </div>
-                                {%- endfor -%}
-                            {%- endif -%}
-                        </div>
-                        {%- if swipe -%}
-                            <div class="slider-buttons no-js-hidden{% if products_to_display < 4 %} medium-hide{% endif %}{% if products_to_display < 3 %} small-hide{% endif %}">
-                                <div class="slider-counter">
-                                    <span class="slider-counter--current">1</span>
-                                    <span aria-hidden="true"> / </span>
-                                    <span class="visually-hidden">{{ 'accessibility.of' | t }}</span>
-                                    <span class="slider-counter--total">{{ products_to_display }}</span>
-                                </div>
-                                <div class="slider-action">
-                                    <button type="button" class="slider-button slider-button--prev" name="previous" aria-label="{{ 'accessibility.previous_slide' | t }}">
-                                        {% render 'icon-caret' %}
-                                    </button>
-                                    <button type="button" class="slider-button slider-button--next" name="next" aria-label="{{ 'accessibility.next_slide' | t }}">
-                                        {% render 'icon-caret' %}
-                                    </button>
-                                </div>
-                            </div>
-                        {%- endif -%}
-                        {%- if infinite_scroll and collections[collection].handle != '' and layout == 'grid' -%}
-                            {%- assign product_total = collections[collection].all_products_count -%}
-                            {%- if product_total > product_limit -%}
-                                <div class="product-infinite-scroll text-center {% if swipe %}hidden-mobile{% endif %}" data-product-infinite>
-                                    <a class="button button--secondary"
-                                        data-collection="{{ collection.handle }}"
-                                        data-limit="{{ product_limit }}"
-                                        data-swipe="{{ swipe }}"
-                                        data-page="2"
-                                        data-total="{{ product_total }}"
-                                        data-image-ratio="{{ image_ratio }}"
-                                        href="javascript:void(0)"
-                                        sectionId="{{ section.id }}"
-                                        {% if countdown != blank %}
-                                        hasCountdown="true"
-                                        {% endif %}
-                                        {% if product_total <= product_limit %}
-                                            disabled="disabled"
-                                        {% endif %}
-                                    >   
-                                        {{ section.settings.button_icon }}
-                                        <span>{{ section.settings.button_text }}</span>
-                                    </a>
-                                </div>
-                            {%- endif -%}
-                        {%- endif -%}
-                    </div>
-                {% if layout == 'scroll' %}
-                    </product-scroller>
-                {% endif %}
             {%- if show_banner -%}
                 </div>
             {% endif %}
@@ -403,6 +256,153 @@
             {%- endif -%}
         </div>
     </{% if swipe %}product-slider-component{% else %}div{% endif %}>
+    {% if layout == 'scroll' %}
+    <product-scroller>
+{% endif %}
+    <div class="halo-block-content container-1280 {% if layout == 'scroll' %}is-scroll{% endif %}{% if section.settings.enable_layout_special %} enable_layout_special{% endif %}"  {% if layout == 'scroll' %}data-drag-container{% endif %}>
+        {%- if layout== 'grid' -%}
+            {%- liquid
+                assign product_limit = 0
+                assign column = section.settings.product_block_per_row
+                if infinite_scroll
+                    assign product_limit = limit
+                endif
+            -%}
+            <div class="products-grid column-{{ column }}{% if swipe %} slider slider--tablet grid grid--peek{% endif %}" data-products-to-show="{{ limit }}">
+        {%- elsif layout == 'slider' -%}
+            {%- liquid
+                assign column = section.settings.product_block_show
+                assign dots = section.settings.product_block_dots
+                assign dots_mb = section.settings.product_block_dots_mb
+                assign arrows = section.settings.product_block_arrows
+                assign arrows_mb = section.settings.product_block_arrows_mb
+            -%}
+            <div class="products-carousel column-{{ column }}"
+                data-item-to-show="{{ column }}"
+                data-item-dots="{{ dots }}"
+                data-item-dots-mb="{{ dots_mb }}"
+                data-item-arrows="{{ arrows }}"
+                data-item-arrows-mb="{{ arrows_mb }}"
+            >
+        {% elsif layout == 'scroll' %}
+            {% liquid
+                assign column = section.settings.product_block_per_view 
+                assign show_half = section.settings.show_half 
+
+                assign scroll_height = section.settings.scroll_height | append: 'px'
+                assign scroll_track_bg = section.settings.scroll_track_bg
+                assign scroll_thumb_color = section.settings.scroll_thumb_color
+                assign scroll_thumb_hover_color = section.settings.scroll_thumb_hover_color
+                assign enable_hover_drag_icon = section.settings.enable_hover_drag_icon
+            %}
+        <div class="products-cursor handleMouseLeave" data-enable-hover="{{ enable_hover_drag_icon }}"> 
+                <div class="products-cursor__outer">    
+                    <div class="products-cursor__inner">
+                        <img src="{{ 'bg-cursor.png' | asset_url }}" alt="Cursor" class="products-cursor__image">
+                        <svg viewBox="0 0 448 512" fill="none" aria-hidden="true" focusable="false" role="presentation" class="icon icon-arrow products-cursor__icon" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M311.03 131.515l-7.071 7.07c-4.686 4.686-4.686 12.284 0 16.971L387.887 239H12c-6.627 0-12 5.373-12 12v10c0 6.627 5.373 12 12 12h375.887l-83.928 83.444c-4.686 4.686-4.686 12.284 0 16.971l7.071 7.07c4.686 4.686 12.284 4.686 16.97 0l116.485-116c4.686-4.686 4.686-12.284 0-16.971L328 131.515c-4.686-4.687-12.284-4.687-16.97 0z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div 
+                class="products-flex disable-srollbar-mb column-{{ column }}{% if show_half %} show-half{% endif %}{% if swipe %} slider slider--tablet grid{% endif %}" 
+                data-drag-parent
+                style="--count: {{ column }};
+                    --scrollbar-height: {{ scroll_height }};
+                    --scrollbar-track-color: {% if scroll_track_bg != blank and scroll_track_bg != 'rgba(0,0,0,0)' %}{{ scroll_track_bg }} {% endif %};
+                    --scrollbar-thumb-color: {% if scroll_thumb_color != blank and scroll_thumb_color != 'rgba(0,0,0,0)' %}{{ scroll_thumb_color }} {% endif %};
+                    --scrollbar-thumb-hover-color: {% if scroll_thumb_hover_color != blank and scroll_thumb_hover_color != 'rgba(0,0,0,0)' %}{{ scroll_thumb_hover_color }} {% endif %};
+                "
+            >
+        {%- endif -%}
+            {%- for tag in current_tags -%}
+                {%- if tag contains 'limit=' -%}
+                    {%- assign limit = tag | remove: 'limit=' -%}
+                {%- elsif tag contains 'sectionId=' -%}
+                    {%- assign sectionId = tag | remove: 'sectionId=' -%}
+                {%- elsif tag contains 'imageRatio=' -%}
+                    {%- assign image_ratio = tag | remove: 'imageRatio=' -%}
+                {%- elsif tag contains 'swipe=' -%}
+                    {%- assign swipe = tag | remove: 'swipe=' -%}
+                {%- elsif tag contains 'hasCountdown=' -%}
+                    {%- assign hasCountdown = tag | remove: 'hasCountdown=' -%}
+                {%- endif -%}
+            {%- endfor -%}
+
+            {%- if collection.products[0] != nil -%}
+                {%- for product in collection.products limit: limit -%}
+                    <div class="product{% if swipe == 'true' %} slider__slide grid__item{% endif %}">
+                        {% render 'product-grid-layout',
+                            product_card_product: product,
+                            portrait_aspect_ratio: '125',
+                            serial: forloop.index,
+                            sectionId: sectionId,
+                            media_size: image_ratio,
+                            hasCountdown: hasCountdown,
+                            loading: true
+                        %}
+                    </div>
+                {%- endfor -%}
+            {%- else -%}
+                {%- for product in (1..limit) -%}
+                    <div class="product{% if swipe %} slider__slide grid__item{% endif %}">
+                        {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+                        {% render 'product-card-placeholder',
+                            index: current
+                        %}
+                    </div>
+                {%- endfor -%}
+            {%- endif -%}
+        </div>
+        {%- if swipe -%}
+            <div class="slider-buttons no-js-hidden{% if products_to_display < 4 %} medium-hide{% endif %}{% if products_to_display < 3 %} small-hide{% endif %}">
+                <div class="slider-counter">
+                    <span class="slider-counter--current">1</span>
+                    <span aria-hidden="true"> / </span>
+                    <span class="visually-hidden">{{ 'accessibility.of' | t }}</span>
+                    <span class="slider-counter--total">{{ products_to_display }}</span>
+                </div>
+                <div class="slider-action">
+                    <button type="button" class="slider-button slider-button--prev" name="previous" aria-label="{{ 'accessibility.previous_slide' | t }}">
+                        {% render 'icon-caret' %}
+                    </button>
+                    <button type="button" class="slider-button slider-button--next" name="next" aria-label="{{ 'accessibility.next_slide' | t }}">
+                        {% render 'icon-caret' %}
+                    </button>
+                </div>
+            </div>
+        {%- endif -%}
+        {%- if infinite_scroll and collections[collection].handle != '' and layout == 'grid' -%}
+            {%- assign product_total = collections[collection].all_products_count -%}
+            {%- if product_total > product_limit -%}
+                <div class="product-infinite-scroll text-center {% if swipe %}hidden-mobile{% endif %}" data-product-infinite>
+                    <a class="button button--secondary"
+                        data-collection="{{ collection.handle }}"
+                        data-limit="{{ product_limit }}"
+                        data-swipe="{{ swipe }}"
+                        data-page="2"
+                        data-total="{{ product_total }}"
+                        data-image-ratio="{{ image_ratio }}"
+                        href="javascript:void(0)"
+                        sectionId="{{ section.id }}"
+                        {% if countdown != blank %}
+                        hasCountdown="true"
+                        {% endif %}
+                        {% if product_total <= product_limit %}
+                            disabled="disabled"
+                        {% endif %}
+                    >   
+                        {{ section.settings.button_icon }}
+                        <span>{{ section.settings.button_text }}</span>
+                    </a>
+                </div>
+            {%- endif -%}
+        {%- endif -%}
+    </div>
+{% if layout == 'scroll' %}
+    </product-scroller>
+{% endif %}
 </div>
 
 <style>
@@ -1290,8 +1290,8 @@
                 "label": "t:sections.layout.container.option3"
             },
             {
-                "value": "1283",
-                "label": "1283px"
+                "value": "1280",
+                "label": "1280px"
             },
             {
                 "value": "fullwidth",

@@ -206,9 +206,9 @@
                     {% endif %}
                     <a href="{{ routes.account_login_url }}" class="header__icon header__icon--account link link--text focus-inset"{% if is_contained %} data-open-auth-sidebar{% endif %}>
                         {% if settings.header_layout == '02' or settings.header_layout == '09' %}
-                            {% render 'icon-account-2' %}
+                            {% render 'icon-customer' %}
                         {% else %}
-                            {% render 'icon-account' %}
+                            {% render 'icon-customer' %}
                         {% endif %}
                         <span class="visually-hidden">
                             {%- liquid
