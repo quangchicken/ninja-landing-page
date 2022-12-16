@@ -1,6 +1,6 @@
 #shopify-section-header-02 {
     position: relative;
-    z-index: 3;
+    z-index: 100;
     will-change: transform;
 }
 
@@ -371,7 +371,7 @@
     .template-index #shopify-section-header-02 .header-02.enable_parallax {
         position: absolute;
         width: 100%;
-        z-index: 3;
+        z-index: 100;
     }
 
     #shopify-section-header-02.animate .header-02.enable_parallax {
