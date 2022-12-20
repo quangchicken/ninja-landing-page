@@ -76,6 +76,20 @@
                                     <script type="application/json">
                                         {{ product.variants | json }}
                                     </script>
+                                    {%- comment -%}
+                                        js-variants-json save variant 
+                                    {%- endcomment -%}
+                                    <script class="js-variants-json" type="application/json">
+                                    [{%- for variant in product.variants -%}
+                                        {%- if variant.available == false or variant.inventory_quantity == 0 and variant.inventory_policy == 'continue' -%}
+                                            {
+                                                "id": {{ variant.id }},
+                                                "qty": {{ variant.inventory_quantity }},
+                                                "policy": "{{ variant.inventory_policy }}"
+                                            } {%- unless forloop.last -%},{%- endunless -%}
+                                        {%- endif -%}
+                                    {%- endfor -%}]
+                                </script>
                                 </variant-sticky-selects>
                             </div>
                         {%- endif -%}
@@ -116,6 +130,16 @@
                                         id="product-sticky-add-to-cart">
                                         {{ 'products.product.add_to_cart' | t}}
                                     </button>
+                                {% endif %}
+                                {% comment %}
+                                    SHOW URL BUTTON IF HAVE ANY LINK METAFIELDS (AMAZONE, ...)
+                                {% endcomment %}
+                                {%- assign amazon_metafield  = product.metafields.custom.amazon -%}
+                                {%- assign barnes_metafield  = product.metafields.custom.barnes -%}
+                                {% if amazon_metafield != blank %}
+                                    <a class="product-form__submit button hidden js-buy-platform" target="_blank" href="{{ amazon_metafield.value }}" role="button">{{ 'products.product.buy_amazon' | t }}</a>
+                                {% elsif barnes_metafield != blank %}
+                                    <a class="product-form__submit button hidden js-buy-platform" target="_blank" href="{{ barnes_metafield.value }}" role="button">{{ 'products.product.buy_barnes' | t }}</a>
                                 {% endif %}
                             {%- else -%}
                                 <button

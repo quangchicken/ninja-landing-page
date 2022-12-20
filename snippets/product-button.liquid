@@ -22,7 +22,10 @@
     assign bin_bg_color_hover = block.settings.bin_bg_color_hover
     assign bin_bg_color_hover_gradient = block.settings.bin_bg_color_hover_gradient
 
+    assign amazon_metafield  = product.metafields.custom.amazon
+    assign barnes_metafield  = product.metafields.custom.barnes
 -%}
+
 <div class="productView-buttons">
     {%- assign product_form_installment_id = 'product-form-installment-' | append: product.id -%}
     {%- form 'product', product, id: product_form_installment_id, class: 'installment caption-large' -%}
@@ -66,66 +69,76 @@
                         >
                             <input type="hidden" name="id" value="{{ current_variant.id }}">
                             <div class="product-form__buttons">
-                                {%- if current_variant.available -%}
-                                    {%- if current_variant.inventory_management -%}
-                                        {%- assign first_inventory = current_variant.inventory_quantity -%}
-                                        {%- liquid
-                                           if current_variant.available and first_inventory == 0
-                                             assign allowOutStockSale = true 
-                                           else
-                                             assign allowOutStockSale = false
-                                           endif
-                                        -%}
-                                      
-                                        <button
-                                            type="submit"
-                                            name="add"
-                                            data-btn-addToCart
-                                            data-available="{{ allowOutStockSale }}"
-                                            class="product-form__submit button button--primary an-{{ atc_animation }}{% if first_inventory == 0 %} button-text-change{% else %}{% if show_subtotal_text %} button-text-change{% endif %}{% endif %}"
-                                            id="product-add-to-cart">
-                                            {%- if first_inventory > 0 -%}
+                                
+                                {% comment %}
+                                    SHOW ADD TO CART IF NOTHING IN METAFIELDS
+                                {% endcomment %}
+                                    {%- if current_variant.available -%}
+                                        {%- if current_variant.inventory_management -%}
+                                            {%- liquid
+                                                assign first_inventory = current_variant.inventory_quantity
+                                                if current_variant.available and first_inventory == 0
+                                                    assign allowOutStockSale = true 
+                                                else
+                                                    assign allowOutStockSale = false
+                                                endif
+                                            -%}
+
+                                            <button type="submit" name="add" data-btn-addToCart data-available="{{ allowOutStockSale }}"
+                                                class="product-form__submit button button--primary an-{{ atc_animation }}{% if first_inventory == 0 %} button-text-change{% else %}{% if show_subtotal_text %} button-text-change{% endif %}{% endif %}"
+                                                id="product-add-to-cart">
+                                                {%- if first_inventory > 0 -%}
+                                                    {%- if show_subtotal_text and subtotal_style == '2' -%}
+                                                        {%- assign subtotal = subtotal | strip_html -%}
+
+                                                        {{ 'products.product.sub_total' | t : value : subtotal }}
+                                                    {%- else -%}
+                                                        {{ 'products.product.add_to_cart' | t}}
+                                                    {%- endif -%}
+                                                {%- else -%}
+                                                    {{ 'products.product.pre_order' | t }}
+                                                {%- endif -%}
+                                            </button>
+                                        {%- else -%}
+                                            <button
+                                                type="submit"
+                                                name="add"
+                                                data-btn-addToCart
+                                                class="product-form__submit button button--secondary an-{{ atc_animation }}{% if show_subtotal_text %} button-text-change{% endif %}"
+                                                id="product-add-to-cart"
+                                            >
                                                 {%- if show_subtotal_text and subtotal_style == '2' -%}
                                                     {%- assign subtotal = subtotal | strip_html -%}
-
                                                     {{ 'products.product.sub_total' | t : value : subtotal }}
                                                 {%- else -%}
                                                     {{ 'products.product.add_to_cart' | t}}
                                                 {%- endif -%}
-                                            {%- else -%}
-                                                {{ 'products.product.pre_order' | t }}
-                                            {%- endif -%}
-                                        </button>
+                                            </button>
+                                        {%- endif -%}
                                     {%- else -%}
                                         <button
                                             type="submit"
                                             name="add"
                                             data-btn-addToCart
-                                            class="product-form__submit button button--secondary an-{{ atc_animation }}{% if show_subtotal_text %} button-text-change{% endif %}"
+                                            class="product-form__submit button"
                                             id="product-add-to-cart"
+                                            disabled
                                         >
-                                            {%- if show_subtotal_text and subtotal_style == '2' -%}
-                                                {%- assign subtotal = subtotal | strip_html -%}
-                                                {{ 'products.product.sub_total' | t : value : subtotal }}
-                                            {%- else -%}
-                                                {{ 'products.product.add_to_cart' | t}}
-                                            {%- endif -%}
+                                            {{ 'products.product.sold_out' | t }}
                                         </button>
                                     {%- endif -%}
-                                {%- else -%}
-                                    <button
-                                        type="submit"
-                                        name="add"
-                                        data-btn-addToCart
-                                        class="product-form__submit button"
-                                        id="product-add-to-cart"
-                                        disabled
-                                    >
-                                        {{ 'products.product.sold_out' | t }}
-                                    </button>
-                                {%- endif -%}
+                                    {% comment %}
+                                        SHOW URL BUTTON IF HAVE ANY LINK METAFIELDS (AMAZONE, ...)
+                                    {% endcomment %}
+                                    {% if amazon_metafield != blank %}
+                                        <a class="product-form__submit button hidden js-buy-platform" target="_blank" href="{{ amazon_metafield.value }}" role="button">{{ 'products.product.buy_amazon' | t }}</a>
+                                    {% elsif barnes_metafield != blank %}
+                                        <a class="product-form__submit button hidden js-buy-platform" target="_blank" href="{{ barnes_metafield.value }}" role="button">{{ 'products.product.buy_barnes' | t }}</a>
+                                    {% endif %}
                             </div>
                         </div>
+
+
                         {%- if settings.show_wishlist -%}
                             <div class="productView-wishlist clearfix">
                                 <a data-wishlist href="#" data-wishlist-handle="{{ product.handle }}" data-product-id="{{ product.id }}">

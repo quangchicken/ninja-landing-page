@@ -212,6 +212,8 @@
       "add_all_to_cart": "Add All to cart",
       "adding_all_to_cart": "Adding All to cart...",
       "added_to_cart": "Added to cart",
+      "buy_amazon": "Buy on Amazon",
+      "buy_barnes": "Buy on Barnes and Noble",
       "add_to_cart_message": "You must select at least one products to add!",
       "add_to_cart_success_message": "is added to your shopping cart.",
       "description": "Description",
