@@ -47,11 +47,13 @@
                 {% liquid
                     assign desk_width = block.settings.column_width
                     assign mob_width = block.settings.mob_column_width
+                    assign column_order = block.settings.column_order
                 %}
                 <div class="muticolumn__column"
                     style="
                         --column-width: {{ desk_width }}%;
                         --column-mob-width: {{ mob_width }}%;
+                        --column-mob-order: {{ column_order }};
                     "
                 >
                     <div class="muticolumn__content spotlight-item spotlight-item__{{block.type}}">
@@ -1569,6 +1571,61 @@
             "step": 1,
             "unit": "%",
             "default": 50
+        },
+        {
+            "type": "select",
+            "id": "column_order",
+            "label": "Column Order",
+            "options": [
+            {
+                "value": "1",
+                "label": "1"
+            },
+            {
+                "value": "2",
+                "label": "2"
+            },
+            {
+                "value": "3",
+                "label": "3"
+            },
+            {
+                "value": "4",
+                "label": "4"
+            },
+            {
+                "value": "5",
+                "label": "5"
+            },
+            {
+                "value": "6",
+                "label": "6"
+            },
+            {
+                "value": "7",
+                "label": "7"
+            },
+            {
+                "value": "8",
+                "label": "8"
+            },
+            {
+                "value": "9",
+                "label": "9"
+            },
+            {
+                "value": "10",
+                "label": "10"
+            },
+            {
+                "value": "11",
+                "label": "11"
+            },
+            {
+                "value": "12",
+                "label": "12"
+            }
+            ]
         },
         {
             "type": "image_picker",

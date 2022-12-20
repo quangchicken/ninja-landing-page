@@ -1,0 +1,32 @@
+@import "./_settings/core";
+
+.banner-image-content {
+    .flex-wrap {
+        @include mq(560px) {
+            display: flex;
+            width: calc(100% + 30px);
+            margin: 0 -15px;
+        }
+    }
+
+    .custom {
+        &-image__block,
+        &-text__block {
+            @include mq(560px) {
+                width: 50%;
+                padding: 0 15px;
+            }
+        }
+
+        &-image__block {
+            &-subtext {
+                * {
+                    display: inline-block;
+                    font-weight: 400;
+                    color: $color-dark;
+                    line-height: 1.5;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,16 @@
+@media screen and (min-width: 560px) {
+  .banner-image-content .flex-wrap {
+    display: flex;
+    width: calc(100% + 30px);
+    margin: 0 -15px; } }
+
+@media screen and (min-width: 560px) {
+  .banner-image-content .custom-image__block, .banner-image-content .custom-text__block {
+    width: 50%;
+    padding: 0 15px; } }
+
+.banner-image-content .custom-image__block-subtext * {
+  display: inline-block;
+  font-weight: 400;
+  color: var(--color-dark, #030303);
+  line-height: 1.5; }
