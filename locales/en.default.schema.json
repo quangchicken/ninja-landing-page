@@ -5362,7 +5362,11 @@
     },
     "newsletter": {
       "name": "Newsletter",
-      "description_font_weight": "Description Font Weight"
+      "description_font_weight": "Description Font Weight",
+      "settings": {
+        "mh_mb": "Min Height Mobile",
+        "content_": "Content Margin Top Mobile"
+      }
     },
     "instagram_grid": {
       "name": "Instagram Side Grid"

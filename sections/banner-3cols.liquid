@@ -57,10 +57,10 @@
                     "
                 >
                     <div class="muticolumn__content spotlight-item spotlight-item__{{block.type}}">
-                        {% if block.settings.image != nil %}
+                        {% if block.settings.image_slide != blank %}
                             <div class="image-container">
                                 <div class="img-box">
-                                    {% if block.settings.image != blank %}
+                                    {% if block.settings.image_slide != blank %}
                                         {%- liquid
                                             assign preview_img = block.settings.image
                                             assign image_height = block.settings.image_height
@@ -70,22 +70,61 @@
                                                 assign image_ratio = image_height 
                                             endif
                                         -%}
-
-                                        <a {% if block.settings.link == blank %} role="link" aria-disabled="true"{% else %} href="{{ block.settings.link }}"{% endif %} class="image-zoom adaptive_height" style="padding-top: {{ image_ratio }}%">
-                                            <img {% render 'lazyload',preview_img: preview_img %} />
-                                            {% if settings.enable_lazyload %}<span class="data-lazy-loading"></span>{% endif %}
-                                        </a>
-                                    {% else %}
-                                        <a {% if block.settings.link == blank %} role="link" aria-disabled="true"{% else %} href="{{ block.settings.link }}"{% endif %} class="image-zoom">
-                                            {% if block.settings.enable_absolute %}
-                                                <div class="not_img" style="--height_not_img: 200px">370 x 200px</div>
-                                            {% else %}
-                                                <div class="not_img" style="--height_not_img: 440px">370 x 440px</div>
-                                            {% endif %}
-                                        </a>
-                                    {% endif %}
-                                    {% if section.settings.enable_plus_icon %}
-                                        <span class="show-icon-more" style="--color-icon-plus: {{ section.settings.color_plus_icon }}"></span>
+                                        {% if block.settings.image_slide != blank %}
+                                            {%- assign img_url = block.settings.image_slide -%}
+                                            <div class="adaptive_height{% if block.settings.image_slide_mb != blank %} slide-pc{% endif %}" style="padding-top: {{ 1 | divided_by: img_url.aspect_ratio | times: 100 }}%">
+                                                <a {% if block.settings.lb_product_1 != blank or block.settings.lb_product_2 != blank or block.settings.lb_product_3 != blank %}href="javascript:void(0)"{% elsif block.settings.link == blank %} role="link"aria-disabled="true"{% else %}href="{{ block.settings.link }}"{% endif %} class="slide-image">
+                                                    <img {% if settings.enable_lazyload and forloop.first == false %}data-{% endif %}srcset="{%- if img_url.width >= 320 -%}{{ img_url | img_url: '375x' }} 375w,{%- endif -%}
+                                                        {%- if img_url.width >= 740 -%}{{ img_url | image_url: width: 740 }} 740w,{%- endif -%} 
+                                                        {%- if img_url.width >= 750 -%}{{ img_url | image_url: width: 750 }} 750w,{%- endif -%}
+                                                        {%- if img_url.width >= 1100 -%}{{ img_url | image_url: width: 1100 }} 1100w,{%- endif -%}
+                                                        {%- if img_url.width >= 1370 -%}{{ img_url | image_url: width: 1370 }} 1370w,{%- endif -%}
+                                                        {%- if img_url.width >= 1500 -%}{{ img_url | image_url: width: 1500 }} 1500w,{%- endif -%}
+                                                        {%- if img_url.width >= 1770 -%}{{ img_url | image_url: width: 1770 }} 1770w,{%- endif -%}
+                                                        {%- if img_url.width >= 1780 -%}{{ img_url | image_url: width: 1780 }} 1780w,{%- endif -%}
+                                                        {%- if img_url.width >= 1880 -%}{{ img_url | image_url: width: 1880 }} 1880w,{%- endif -%}
+                                                        {%- if img_url.width >= 2000 -%}{{ img_url | image_url: width: 2000 }} 2000w,{%- endif -%}
+                                                        {%- if img_url.width >= 2800 -%}{{ img_url | image_url: width: 2800 }} 2800w{%- endif -%}"
+                                                        sizes="{% if section.settings.image != blank and section.settings.stack_images_on_mobile %}(min-width: 750px) 50vw, 100vw{% elsif section.settings.image != blank %}50vw{% else %}100vw{% endif %}"
+                                                        {% unless settings.enable_lazyload and forloop.first == false %}src="{{ img_url | image_url: width: 750 }}"{% endunless %}
+                                                        alt="{{ img_url.alt  | escape }}"
+                                                        width="{{ img_url.width }}"
+                                                        height="{{ img_url.width | divided_by: img_url.aspect_ratio }}"
+                                                        {% if settings.enable_lazyload and forloop.first == false %}class="lazyload" loading="lazy"{% endif %}
+                                                    >
+                                                    {% if settings.enable_lazyload and forloop.first == false %}<span class="data-lazy-loading"></span>{% endif %}
+                                                </a>
+                                            </div>
+                                        {% else %}
+                                            <div class="not_img {% if block.settings.image_slide_mb != blank %} slide-pc{% endif %}" style="--height_not_img: 720px">
+                                                1880 x 720px
+                                            </div>
+                                        {% endif %}
+                                        {% if block.settings.image_slide_mb != blank %}
+                                            {%- assign preview_img_mb = block.settings.image_slide_mb -%}
+                                            {%- assign img_url_mb = block.settings.image_slide_mb -%}
+                                            <div class="adaptive_height slide-mobile" style="padding-top: {{ 1 | divided_by: preview_img_mb.aspect_ratio | times: 100 }}%">
+                                                <a {% if block.settings.lb_product_1 != blank or block.settings.lb_product_2 != blank or block.settings.lb_product_3 != blank %}href="javascript:void(0)"{% elsif block.settings.link == blank %} role="link"aria-disabled="true"{% else %}href="{{ block.settings.link }}"{% endif %} class="slide-image">
+                                                    <img {% if settings.enable_lazyload and forloop.first == false %}data-{% endif %}srcset="{%- if img_url_mb.width >= 320 -%}{{ img_url_mb | img_url: '375x' }} 375w,{%- endif -%}
+                                                        {%- if img_url_mb.width >= 750 -%}{{ img_url_mb | image_url: width: 750 }} 750w,{%- endif -%}
+                                                        {%- if img_url_mb.width >= 1100 -%}{{ img_url_mb | image_url: width: 1100 }} 1100w,{%- endif -%}
+                                                        {%- if img_url_mb.width >= 1370 -%}{{ img_url_mb | image_url: width: 1370 }} 1370w,{%- endif -%}
+                                                        {%- if img_url_mb.width >= 1500 -%}{{ img_url_mb | image_url: width: 1500 }} 1500w,{%- endif -%}
+                                                        {%- if img_url_mb.width >= 1780 -%}{{ img_url_mb | image_url: width: 1780 }} 1780w,{%- endif -%}
+                                                        {%- if img_url_mb.width >= 2000 -%}{{ img_url_mb | image_url: width: 2000 }} 2000w,{%- endif -%}
+                                                        {%- if img_url_mb.width >= 2800 -%}{{ img_url_mb | image_url: width: 2800 }} 2800w{%- endif -%}"
+                                                        sizes="{% if section.settings.image != blank and section.settings.stack_images_on_mobile %}(min-width: 750px) 50vw, 100vw{% elsif section.settings.image != blank %}50vw{% else %}100vw{% endif %}"
+                                                        {% unless settings.enable_lazyload %}src="{{ img_url_mb | image_url: width: 750 }}"{% endunless %}
+                                                        alt="{{ img_url_mb.alt | escape }}"
+                                                        width="{{ img_url_mb.width }}"
+                                                        height="{{ img_url_mb.width | divided_by: img_url_mb.aspect_ratio }}"
+                                                        {% if settings.enable_lazyload and forloop.first == false %}class="lazyload" loading="lazy"{% endif %}
+                                                    >
+                                                    {% if settings.enable_lazyload and forloop.first == false %}<span class="data-lazy-loading"></span>{% endif %}
+                                                </a>
+                                            </div>
+                                        {% endif %}
+                                        {% if settings.enable_lazyload %}<span class="data-lazy-loading"></span>{% endif %}
                                     {% endif %}
                                 </div>
                             </div>
@@ -1629,8 +1668,15 @@
         },
         {
             "type": "image_picker",
-            "id": "image",
-            "label": "t:sections.spotlight_block.blocks.image.name"
+            "id": "image_slide",
+            "label" : "t:sections.slide-show.blocks.image.image_slide",
+            "info": "t:sections.slide-show.blocks.image.info_image_slide"
+        },
+        {
+            "type": "image_picker",
+            "id": "image_slide_mb",
+            "label" : "t:sections.slide-show.blocks.image.image_slide_mb",
+            "info": "t:sections.slide-show.blocks.image.info_image_slide_mb"
         },
         {
             "type": "number",

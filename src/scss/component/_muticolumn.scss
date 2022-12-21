@@ -13,11 +13,11 @@
         display: flex;
         flex-direction: column;
         width: 100%;
-        @include mq (560px, max) {
+        @include mq(768px, max) {
             order: var(--column-mob-order);
         }
 
-        @include mq((560px, 1025px)) {
+        @include mq((768px, 1025px)) {
             width: var(--column-mob-width);
         }
 
@@ -26,7 +26,7 @@
         }
 
         &:last-child {
-            @include mq((560px, 1025px)) {
+            @include mq((768px, 1025px)) {
                 position: absolute;
                 top: 0;
             }
@@ -34,17 +34,23 @@
             .image-container {
                 position: relative;
                 z-index: -1;
+
+                .adaptive_height {
+                    @include mq((768px, 1024px)) {
+                        padding-top: 40% !important;
+                    }
+                }
             }
 
             .img-box {
-                @include mq(560px) {
+                @include mq(768px) {
                     position: relative;
                     z-index: -1;
                     width: 723px;
                     height: 400px;
                 }
 
-                @include mq((560px, 1025px)) {
+                @include mq((768px, 1025px)) {
                     transform: translate(37%);
                 }
 
@@ -65,8 +71,6 @@
         margin-top: auto;
 
         @include mq(560px, max) {
-            margin-top: 30px;
-
             .content {
                 text-align: center;
             }

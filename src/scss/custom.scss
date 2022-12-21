@@ -291,6 +291,8 @@ svg {
                     top: 50%;
                     left: 50%;
                     transform: translate(-50%, -50%);
+                    margin-left: 0;
+                    padding-right: 0;
                 }
             }
            
@@ -388,4 +390,8 @@ svg {
     &__inner {
         display: flex;
     }
+}
+
+.header-mobile--icon+.header-mobile--icon {
+
 }

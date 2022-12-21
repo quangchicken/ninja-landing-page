@@ -9,11 +9,14 @@
     assign newsletter_bg = section.settings.newsletter_bg
     assign newsletter_bg_gradient = section.settings.newsletter_bg_gradient
     assign newsletter_bg_image = section.settings.newsletter_bg_image
-
-    assign mg_bottom_desktop = section.settings.mg_bottom_desktop | append: 'px' 
-    assign mg_bottom_tablet = section.settings.mg_bottom_tablet | append: 'px' 
-    assign mg_bottom_mobile = section.settings.mg_bottom_mobile | append: 'px' 
-    assign container = section.settings.container
+    assign mob_bg_image = section.settings.mob_bg_image
+    assign min_height_mb = section.settings.min_height_mb
+    assign content_mt_mob = section.settings.content_mt_mob
+    
+    assign mg_bottom_desktop  = section.settings.mg_bottom_desktop | append: 'px' 
+    assign mg_bottom_tablet   = section.settings.mg_bottom_tablet | append: 'px' 
+    assign mg_bottom_mobile   = section.settings.mg_bottom_mobile | append: 'px' 
+    assign container          = section.settings.container
     assign padding_full_width = section.settings.padding_full_width | append: 'px' 
 
     assign text_align = section.settings.text_align   
@@ -57,196 +60,196 @@
 -%}
 
 <div class="newsletter-section section-block-{{section.id}}" id="newsletter-section-{{section.id}}">
-  <div class="{% if container == 'fullwidth' %}container-full{% elsif container == '1170' %}container-1170{% elsif container == '1770' %}container-1770{% else %}container{% endif %}">
-    <div class="section-content {{ text_align }}">
-        {% if section_subtitle != blank %}
-            <h4 class="subtitle"
-                style="
-                --subtitle-font-size: {{ section_subtitle_font_size }};
-                --subtitle-font-size-mb: {{ section_subtitle_font_size_mb }}; 
-                --subtitle-font-weight: {{ section_subtitle_font_weight }};
-                --subtitle-color: {% if section_subtitle_color != blank %}{{ section_subtitle_color }}{% endif %};
-            ">
-                <span class="text">{{ section_subtitle }}</span>
-            </h4>   
-        {% endif %}
-        {% if section_title != blank %}
-            <h3 class="title"
-                style="
-                --title-font-size: {{ section_title_font_size }};
-                --title-font-size-mb: {{ section_title_font_size_mb }}; 
-                --title-font-weight: {{ section_title_font_weight }};
-                --title-color: {% if section_title_color != blank %}{{ section_title_color }}{% endif %};
-            ">
-                <span class="text">
-                    {{ section_title }}
-                </span>
-            </h3>   
-        {% endif %}
-        {% if section_description != blank %}
-            <div class="description"
-                style="
-                    --description-font-size: {{ section_description_font_size }};
-                    --description-font-size-mb: {{ section_description_font_size_mb }};
-                    --description-color: {% if section_description_color != blank %}{{ section_description_color }}{% endif %};
-                    --description-font-weight: {{ section_description_font_weight }};    
-                ">   
-                {{ section_description }}
-            </div>
-        {% endif %}
-        <newsletter-form class="newsletter-section-form newsletter-section-block">
-            {%- form 'customer', id: 'NewsletterSection', class: 'newsletter-block newsletter-form' -%}
-                <input type="hidden" name="contact[tags]" value="newsletter">
-                <div class="newsletter-form__field-wrapper"
+    <div class="newsletter-forms {% if container == 'fullwidth' %}container-full{% elsif container == '1170' %}container-1170{% elsif container == '1770' %}container-1770{% else %}container{% endif %}">
+        <div class="section-content {{ text_align }}">
+            {% if section_subtitle != blank %}
+                <h4 class="subtitle"
                     style="
-                        --placeholder-color: {% if input_placeholder_color != blank %}{{ input_placeholder_color }}{% endif %};
-                        --input-background: {% if input_background_color != blank %}{{ input_background_color }}{% endif %};
-                        --input-border-color: {% if input_border_color != blank %}{{ input_border_color }}{% endif %}; 
-                        --input-border-radius: {{ form_border_radius }};
-                        --form-gap: {{ form_gap }};
-                    ">
-                    <div class="field">
-                        <label class="field__label hiddenLabels" for="NewsletterForm--{{ section.id }}">
-                            {{ 'newsletter.label' | t }}
-                        </label>
-                        <input
-                            id="NewsletterForm--{{ section.id }}"
-                            type="text"
-                            name="contact[first_name]"
-                            class="field__input form-input-placeholder"
-                            value="{{ form.first_name }}"
-                            aria-required="true"
-                            autocorrect="off"
-                            autocapitalize="off"
-                            autocomplete="first_name"
-                            {% if form.errors %}
-                                autofocus
-                                aria-invalid="true"
-                                aria-describedby="ContactFooter-error"
-                            {% elsif form.posted_successfully? %}
-                                aria-describedby="ContactFooter-success"
-                            {% endif %}
-                            placeholder="{{ 'newsletter.placeholder_3' | t }}"
-                        >
-                        <input
-                            id="NewsletterForm--{{ section.id }}"
-                            type="email"
-                            name="contact[email]"
-                            class="field__input form-input-placeholder"
-                            value="{{ form.email }}"
-                            aria-required="true"
-                            autocorrect="off"
-                            autocapitalize="off"
-                            autocomplete="email"
-                            {% if form.errors %}
-                                autofocus
-                                aria-invalid="true"
-                                aria-describedby="ContactFooter-error"
-                            {% elsif form.posted_successfully? %}
-                                aria-describedby="ContactFooter-success"
-                            {% endif %}
-                            placeholder="{{ 'newsletter.placeholder' | t }}"
-                        >
-                        <select id="whoiam" class="field__select" name="contact[city]">
-                            <option value="Tell us who you are?" disabled selected>{{ 'newsletter.select_value' | t}}</option>
-                            <option value="teacher">{{ 'newsletter.option_1' | t}}</option>
-                            <option value="student">{{ 'newsletter.option_2' | t}}</option>
-                        </select>
-                    </div>
-                    <button 
-                            type="submit" 
-                            class="button newsletter-form__button" 
-                            name="commit" 
-                            id="Subscribe-{{ section.id }}" 
-                            aria-label="{{ 'newsletter.button_label' | t }}" 
-                            style=" 
-                                --button-width: {{ button_width }};
-                                --button-font-size: {{ button_font_size }};
-                                --button-text-color: {% if button_text_color != blank %}{{ button_text_color }}{% endif %};
-                                --button-border-color: {% if button_border_color != blank %}{{ button_border_color }}{% endif %};
-                                --button-background: {% if button_gradient_color != blank %}{{ button_gradient_color }}{% elsif button_background_color != blank %}{{ button_background_color }}{% endif %};
-                                --button-text-color-hover: {% if button_text_color_hover != blank %}{{ button_text_color_hover }}{% endif %};
-                                --button-border-color-hover: {% if button_border_color_hover != blank %}{{ button_border_color_hover }}{% endif %};
-                                --button-background-hover: {% if button_gradient_color_hover != blank %}{{ button_gradient_color_hover }}{% elsif button_background_color_hover != blank %}{{ button_background_color_hover }}{% endif %};
-                                --button-text-transform: {{ button_text_transform }};
-                                --button-font-weight: {{ button_font_weight }};
-                                ">  
-                        {{ 'newsletter.button_label' | t }}
-                    </button>
-                    <span class="newsletter-form__policy">{{ 'newsletter.policy' | t  }}</span>
+                    --subtitle-font-size: {{ section_subtitle_font_size }};
+                    --subtitle-font-size-mb: {{ section_subtitle_font_size_mb }}; 
+                    --subtitle-font-weight: {{ section_subtitle_font_weight }};
+                    --subtitle-color: {% if section_subtitle_color != blank %}{{ section_subtitle_color }}{% endif %};
+                ">
+                    <span class="text">{{ section_subtitle }}</span>
+                </h4>   
+            {% endif %}
+            {% if section_title != blank %}
+                <h3 class="title"
+                    style="
+                    --title-font-size: {{ section_title_font_size }};
+                    --title-font-size-mb: {{ section_title_font_size_mb }}; 
+                    --title-font-weight: {{ section_title_font_weight }};
+                    --title-color: {% if section_title_color != blank %}{{ section_title_color }}{% endif %};
+                ">
+                    <span class="text">
+                        {{ section_title }}
+                    </span>
+                </h3>   
+            {% endif %}
+            {% if section_description != blank %}
+                <div class="description"
+                    style="
+                        --description-font-size: {{ section_description_font_size }};
+                        --description-font-size-mb: {{ section_description_font_size_mb }};
+                        --description-color: {% if section_description_color != blank %}{{ section_description_color }}{% endif %};
+                        --description-font-weight: {{ section_description_font_weight }};    
+                    ">   
+                    {{ section_description }}
                 </div>
-                {%- if form.errors -%}
-                    <div class="newsletter-form__message newsletter-form__message--error form__message" id="ContactFooter-error">
-                        {% render 'icon-error' %}{{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}
+            {% endif %}
+            <newsletter-form class="newsletter-section-form newsletter-section-block">
+                {%- form 'customer', id: 'NewsletterSection', class: 'newsletter-block newsletter-form' -%}
+                    <input type="hidden" name="contact[tags]" value="newsletter">
+                    <div class="newsletter-form__field-wrapper"
+                        style="
+                            --placeholder-color: {% if input_placeholder_color != blank %}{{ input_placeholder_color }}{% endif %};
+                            --input-background: {% if input_background_color != blank %}{{ input_background_color }}{% endif %};
+                            --input-border-color: {% if input_border_color != blank %}{{ input_border_color }}{% endif %}; 
+                            --input-border-radius: {{ form_border_radius }};
+                            --form-gap: {{ form_gap }};
+                        ">
+                        <div class="field">
+                            <label class="field__label hiddenLabels" for="NewsletterForm--{{ section.id }}">
+                                {{ 'newsletter.label' | t }}
+                            </label>
+                            <input
+                                id="NewsletterForm--{{ section.id }}"
+                                type="text"
+                                name="contact[first_name]"
+                                class="field__input form-input-placeholder"
+                                value="{{ form.first_name }}"
+                                aria-required="true"
+                                autocorrect="off"
+                                autocapitalize="off"
+                                autocomplete="first_name"
+                                {% if form.errors %}
+                                    autofocus
+                                    aria-invalid="true"
+                                    aria-describedby="ContactFooter-error"
+                                {% elsif form.posted_successfully? %}
+                                    aria-describedby="ContactFooter-success"
+                                {% endif %}
+                                placeholder="{{ 'newsletter.placeholder_3' | t }}"
+                            >
+                            <input
+                                id="NewsletterForm--{{ section.id }}"
+                                type="email"
+                                name="contact[email]"
+                                class="field__input form-input-placeholder"
+                                value="{{ form.email }}"
+                                aria-required="true"
+                                autocorrect="off"
+                                autocapitalize="off"
+                                autocomplete="email"
+                                {% if form.errors %}
+                                    autofocus
+                                    aria-invalid="true"
+                                    aria-describedby="ContactFooter-error"
+                                {% elsif form.posted_successfully? %}
+                                    aria-describedby="ContactFooter-success"
+                                {% endif %}
+                                placeholder="{{ 'newsletter.placeholder' | t }}"
+                            >
+                            <select id="whoiam" class="field__select" name="contact[city]">
+                                <option value="Tell us who you are?" disabled selected>{{ 'newsletter.select_value' | t}}</option>
+                                <option value="teacher">{{ 'newsletter.option_1' | t}}</option>
+                                <option value="student">{{ 'newsletter.option_2' | t}}</option>
+                            </select>
+                        </div>
+                        <button 
+                                type="submit" 
+                                class="button newsletter-form__button" 
+                                name="commit" 
+                                id="Subscribe-{{ section.id }}" 
+                                aria-label="{{ 'newsletter.button_label' | t }}" 
+                                style=" 
+                                    --button-width: {{ button_width }};
+                                    --button-font-size: {{ button_font_size }};
+                                    --button-text-color: {% if button_text_color != blank %}{{ button_text_color }}{% endif %};
+                                    --button-border-color: {% if button_border_color != blank %}{{ button_border_color }}{% endif %};
+                                    --button-background: {% if button_gradient_color != blank %}{{ button_gradient_color }}{% elsif button_background_color != blank %}{{ button_background_color }}{% endif %};
+                                    --button-text-color-hover: {% if button_text_color_hover != blank %}{{ button_text_color_hover }}{% endif %};
+                                    --button-border-color-hover: {% if button_border_color_hover != blank %}{{ button_border_color_hover }}{% endif %};
+                                    --button-background-hover: {% if button_gradient_color_hover != blank %}{{ button_gradient_color_hover }}{% elsif button_background_color_hover != blank %}{{ button_background_color_hover }}{% endif %};
+                                    --button-text-transform: {{ button_text_transform }};
+                                    --button-font-weight: {{ button_font_weight }};
+                                    ">  
+                            {{ 'newsletter.button_label' | t }}
+                        </button>
+                        <span class="newsletter-form__policy">{{ 'newsletter.policy' | t  }}</span>
                     </div>
-                {%- endif -%}
-                {%- if form.posted_successfully? -%}
-                <script>
-                    $(document).ready(function() {
-                        var newsletterSuccessPopup = (function() {
-                            var popup = $('.newsletter-success-modal');
-                            var close = popup.find('.close');
-                            var success = popup.find('.success');
-                            var error = popup.find('.error');
-                            var overlay = $('.background-overlay');
-                            popup.show();
-                            overlay.show();
-                            error.hide();
-                            success.show();
-                            $.cookie('emailSubcribeModal', 'closed', {
-                                expires: 1,
-                                path: '/'
-                            });
-                            close.off('click').on('click', function() {
-                                popup.fadeOut();
-                                overlay.hide();
-                            });
-                            overlay.off('click').on('click', function() {
-                                popup.fadeOut();
-                                overlay.hide();
-                            });
-                        })();
-                        var newURL = location.href.split("?")[0];
-                        window.history.pushState('object', document.title, newURL);
-                    })
-                </script>
-                {% else %}
+                    {%- if form.errors -%}
+                        <div class="newsletter-form__message newsletter-form__message--error form__message" id="ContactFooter-error">
+                            {% render 'icon-error' %}{{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}
+                        </div>
+                    {%- endif -%}
+                    {%- if form.posted_successfully? -%}
                     <script>
                         $(document).ready(function() {
-                            if (window.location.href.indexOf('newsletter&form_type=customer') > -1) {
-                                var newsletterSuccessPopup = (function() {
-                                    var popup = $('.newsletter-success-modal');
-                                    var close = popup.find('.close');
-                                    var success = popup.find('.success');
-                                    var error = popup.find('.error');
-                                    var overlay = $('.background-overlay');
-                                    popup.show();
-                                    overlay.show();
-                                    error.show();
-                                    success.hide();
-                                    $.cookie('emailSubcribeModal', 'closed', {
-                                        expires: 1,
-                                        path: '/'
-                                    });
-                                    close.off('click').on('click', function() {
-                                        popup.fadeOut();
-                                        overlay.hide();
-                                    });
-                                    overlay.off('click').on('click', function() {
-                                        popup.fadeOut();
-                                        overlay.hide();
-                                    });
-                                })();
-                                var newURL = location.href.split("?")[0];
-                                window.history.pushState('object', document.title, newURL);
-                            }
+                            var newsletterSuccessPopup = (function() {
+                                var popup = $('.newsletter-success-modal');
+                                var close = popup.find('.close');
+                                var success = popup.find('.success');
+                                var error = popup.find('.error');
+                                var overlay = $('.background-overlay');
+                                popup.show();
+                                overlay.show();
+                                error.hide();
+                                success.show();
+                                $.cookie('emailSubcribeModal', 'closed', {
+                                    expires: 1,
+                                    path: '/'
+                                });
+                                close.off('click').on('click', function() {
+                                    popup.fadeOut();
+                                    overlay.hide();
+                                });
+                                overlay.off('click').on('click', function() {
+                                    popup.fadeOut();
+                                    overlay.hide();
+                                });
+                            })();
+                            var newURL = location.href.split("?")[0];
+                            window.history.pushState('object', document.title, newURL);
                         })
                     </script>
-                {%- endif -%}
-            {%- endform -%}
-        </newsletter-form>
+                    {% else %}
+                        <script>
+                            $(document).ready(function() {
+                                if (window.location.href.indexOf('newsletter&form_type=customer') > -1) {
+                                    var newsletterSuccessPopup = (function() {
+                                        var popup = $('.newsletter-success-modal');
+                                        var close = popup.find('.close');
+                                        var success = popup.find('.success');
+                                        var error = popup.find('.error');
+                                        var overlay = $('.background-overlay');
+                                        popup.show();
+                                        overlay.show();
+                                        error.show();
+                                        success.hide();
+                                        $.cookie('emailSubcribeModal', 'closed', {
+                                            expires: 1,
+                                            path: '/'
+                                        });
+                                        close.off('click').on('click', function() {
+                                            popup.fadeOut();
+                                            overlay.hide();
+                                        });
+                                        overlay.off('click').on('click', function() {
+                                            popup.fadeOut();
+                                            overlay.hide();
+                                        });
+                                    })();
+                                    var newURL = location.href.split("?")[0];
+                                    window.history.pushState('object', document.title, newURL);
+                                }
+                            })
+                        </script>
+                    {%- endif -%}
+                {%- endform -%}
+            </newsletter-form>
+        </div>
     </div>
-  </div>
 </div>
 
 
@@ -286,12 +289,37 @@
         {% if newsletter_bg_gradient %}
             background: {{ newsletter_bg_gradient }};
         {% endif %}
-        {% if newsletter_bg_gradient %}
-            background: url({{ newsletter_bg_image | img_url: '1920x' }});
+        {% if newsletter_bg_gradient != blank %}
+            background: url({{ mob_bg_image | img_url: '390x' }});
             background-size: cover;
             background-repeat: no-repeat;
         {% endif %}
+        {% if min_height_mb != 0 %}
+            min-height: {{ min_height_mb }}px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        {% endif %}
     }
+
+    {% if content_mt_mob != 0 %}
+        @media screen and (max-width: 480px) {
+            .section-block-{{ section.id }} .newsletter-forms {
+                margin-top: {{ content_mt_mob }}px;
+            }
+        }
+    {% endif %}
+
+    {% if newsletter_bg_gradient != blank and newsletter_bg_image != blank %}
+        @media screen and (min-width: 480px) {
+            .section-block-{{ section.id }} {
+                background: url({{ newsletter_bg_image | img_url: '1920x' }});
+                background-size: cover;
+                background-repeat: no-repeat; 
+                min-height: unset;   
+            }
+        }
+    {% endif %}    
 </style>
 
 {% schema %}
@@ -423,6 +451,21 @@
             "label" : "t:settings_schema.colors.settings.colors_name.background_image"
         },
         {
+            "type" : "image_picker",
+            "id" : "mob_bg_image",
+            "label" : "t:settings_schema.colors.settings.colors_name.background_image"
+        },
+        {
+            "type" : "number",
+            "id" : "min_height_mb",
+            "label" : "Min Height Mobile"
+        },
+        {
+            "type" : "number",
+            "id" : "content_mt_mob",
+            "label" : "Content Margin Top Mobile"
+        },
+        {
             "type": "header",
             "content": "t:sections.image-banner.blocks.image.settings.content.label__18"
         },
@@ -449,7 +492,7 @@
         {
             "type": "text",
             "id": "section_subtitle",
-            "label": "t:settings_schema.typography.settings.typography.settings.typography.subtitle",
+            "label": "Subtitle",
             "default": "Subscribe"
         },
         {

@@ -197,7 +197,9 @@ svg {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); }
+  transform: translate(-50%, -50%);
+  margin-left: 0;
+  padding-right: 0; }
 
 .header__icon.header__icon--account {
   margin-left: 0;
