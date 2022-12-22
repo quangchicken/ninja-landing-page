@@ -77,11 +77,16 @@
         }
 
         .spotlight-inner .sub_title {
+            font-family: $font-camping-holiday;
             font-size: calc(var(--fontsize-text-style) - var(--fontsize-text-style) / 10);
 
             @include mq(1025px) {
                 font-size: var(--fontsize-text-style);
             }
+        }
+
+        .title {
+            font-family: $font-camping-holiday;
         }
 
         .spotlight-button {
@@ -112,7 +117,7 @@
 
     // overide
     .spotlight-inner .sub_title {
-        line-height: 1.3;
+        line-height: 0.9;
     }
 
     .spotlight-inner.text-left {

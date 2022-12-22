@@ -1,5 +1,10 @@
 @import "./_settings/core";
 
+@font-face {
+    font-family: "Holiday";
+    src: url(camping-holiday.otf);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -295,7 +300,6 @@ svg {
                     padding-right: 0;
                 }
             }
-           
         }
     }
 
@@ -392,6 +396,5 @@ svg {
     }
 }
 
-.header-mobile--icon+.header-mobile--icon {
-
+.header-mobile--icon + .header-mobile--icon {
 }

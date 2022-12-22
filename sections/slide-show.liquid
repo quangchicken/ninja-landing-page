@@ -613,6 +613,11 @@
                                 }
                             {% endif %}
 
+                            .slide-block-{{ block.id }} .slide-content .slide-heading,
+                            .slide-block-{{ block.id }} .slide-content .slide-slide-text {
+                                max-width: 200px;
+                            }
+
                             .slide-block-{{ block.id }} .slide-content.text-left{
                                 text-align: left;                            
                             }

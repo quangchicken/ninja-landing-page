@@ -25,7 +25,6 @@
     assign amazon_metafield  = product.metafields.custom.amazon
     assign barnes_metafield  = product.metafields.custom.barnes
 -%}
-
 <div class="productView-buttons">
     {%- assign product_form_installment_id = 'product-form-installment-' | append: product.id -%}
     {%- form 'product', product, id: product_form_installment_id, class: 'installment caption-large' -%}
@@ -69,7 +68,6 @@
                         >
                             <input type="hidden" name="id" value="{{ current_variant.id }}">
                             <div class="product-form__buttons">
-                                
                                 {% comment %}
                                     SHOW ADD TO CART IF NOTHING IN METAFIELDS
                                 {% endcomment %}
@@ -90,7 +88,6 @@
                                                 {%- if first_inventory > 0 -%}
                                                     {%- if show_subtotal_text and subtotal_style == '2' -%}
                                                         {%- assign subtotal = subtotal | strip_html -%}
-
                                                         {{ 'products.product.sub_total' | t : value : subtotal }}
                                                     {%- else -%}
                                                         {{ 'products.product.add_to_cart' | t}}
@@ -127,17 +124,8 @@
                                             {{ 'products.product.sold_out' | t }}
                                         </button>
                                     {%- endif -%}
-                                    {% comment %}
-                                        SHOW URL BUTTON IF HAVE ANY LINK METAFIELDS (AMAZONE, ...)
-                                    {% endcomment %}
-                                    {% if amazon_metafield != blank %}
-                                        <a class="product-form__submit button hidden js-buy-platform" target="_blank" href="{{ amazon_metafield.value }}" role="button">{{ 'products.product.buy_amazon' | t }}</a>
-                                    {% elsif barnes_metafield != blank %}
-                                        <a class="product-form__submit button hidden js-buy-platform" target="_blank" href="{{ barnes_metafield.value }}" role="button">{{ 'products.product.buy_barnes' | t }}</a>
-                                    {% endif %}
                             </div>
                         </div>
-
 
                         {%- if settings.show_wishlist -%}
                             <div class="productView-wishlist clearfix">
@@ -159,6 +147,7 @@
                         {%- endif -%}
                     </div>
                 </div>
+
                 {%- if show_dynamic_checkout -%}
                     <div class="productView-groupBottom">
                         {%- if settings.show_global_checkbox -%}
@@ -179,7 +168,7 @@
                             </div>
                         {%- endif -%}
                         <div class="productView-groupItem">
-                            <div class="productView-payment" {% if settings.show_global_checkbox %} disabled="disabled"{% endif %} id="product-checkout-{{ product.id }}"
+                            <div class="productView-payment js-button-payment" {% if settings.show_global_checkbox %} disabled="disabled"{% endif %} id="product-checkout-{{ product.id }}"
                                 style="--bin-color: {{ bin_color }};
                                        --bin-bg-color: {% if bin_bg_color_gradient != blank %}{{ bin_bg_color_gradient }}{% else %}{{ bin_bg_color }}{% endif %};
                                        --bin-border-color: {{ bin_border_color }};
@@ -195,6 +184,7 @@
             </div>
         {%- endform -%}
     </product-form>
+
     {%- if settings.show_notify_form -%}
         <div class="productView-notifyMe halo-notifyMe" {% if product.variants.size > 1 %}style="display: none;"{% else %}{% if product.available %}style="display: none;"{% endif %}{% endif %}>
             {% render 'halo-notify-sold-out',
@@ -203,4 +193,16 @@
             %}
         </div>
     {%- endif -%}
+</div>
+
+<div class="product-form__platform js-platform-page-{{ product.id }}">
+    {% comment %}
+        SHOW URL BUTTON IF HAVE ANY LINK METAFIELDS (AMAZON, ...)
+    {% endcomment %}
+    {% if amazon_metafield != blank %}
+        <a class="product-form__submit button button--primary hidden js-buy-platform" target="_blank" href="{{ amazon_metafield.value }}" role="button">{{ 'products.product.buy_amazon' | t }}</a>
+    {% endif %}
+    {% if barnes_metafield != blank %}
+        <a class="product-form__submit button button--primary hidden js-buy-platform" target="_blank" href="{{ barnes_metafield.value }}" role="button">{{ 'products.product.buy_barnes' | t }}</a>
+    {% endif %}
 </div>

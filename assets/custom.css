@@ -1,3 +1,7 @@
+@font-face {
+  font-family: "Holiday";
+  src: url(camping-holiday.otf); }
+
 * {
   margin: 0;
   padding: 0;

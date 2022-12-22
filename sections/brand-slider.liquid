@@ -45,7 +45,7 @@
                         {% for block in section.blocks %}
                             <div class="halo-item item--{{ block.settings.box_shadow }} block-{{block.id}} {{ block.settings.text_align }}" id="block-{{block.id}}" style="--item-distance-style: {{ section.settings.item_distance | append: 'px' }};">
                                 {% if section.settings.brands_block_style == 'style_2' %}
-                                    <div class="    ">
+                                    <div class="">
                                     {% endif %}
                                     {% if block.settings.image != blank %}
                                         {%- liquid
@@ -156,6 +156,18 @@
                                     .block-{{ block.id}}.wrapper-image, .block-{{ block.id}}.not_img {
                                         margin-bottom: {{ block.settings.margin_bottom_image | append: 'px' }} !important;
                                     }
+
+                                    .block-{{ block.id}} .subtitle {
+                                        font-size: {{ block.settings.fontsize_subtitle | append: 'px' }};
+                                        font-weight: {{ block.settings.font_weight_subtitle | append: 'px' }};
+                                    }   
+
+                                    @media screen and (max-width: 560px) {
+                                        .block-{{ block.id}} .subtitle {
+                                            font-size: {{ block.settings.fontsize_subtitle_mb }};
+                                        }   
+                                    }
+
                                     .block-{{ block.id}} .text {
                                         display: block;
                                         text-align: center;
@@ -1234,6 +1246,54 @@
                         "type": "text",
                         "id": "subtitle",
                         "label": "t:sections.image-banner.blocks.image.settings.content.subtitle"
+                    },
+                    {
+                        "type": "range",
+                        "id": "fontsize_subtitle",
+                        "label": "FontSize Subtitle",
+                        "min": 10,
+                        "max": 50,
+                        "step": 1,
+                        "unit": "t:sections.layout.fontsize.fontsize_title.unit",
+                        "default": 16
+                    }, {
+                        "type": "range",
+                        "id": "fontsize_subtitle_mb",
+                        "label": "FontSize Subtitle Mobile",
+                        "min": 10,
+                        "max": 50,
+                        "step": 1,
+                        "unit": "t:sections.layout.fontsize.fontsize_title.unit",
+                        "default": 13
+                    }, {
+                        "type": "select",
+                        "id": "font_weight_subtitle",
+                        "label": "FontSize Weight",
+                        "default": "400",
+                        "options": [
+                            {
+                                "value": "400",
+                                "label": "t:settings_schema.typography.settings.font_weight.options__1"
+                            },
+                            {
+                                "value": "500",
+                                "label": "t:settings_schema.typography.settings.font_weight.options__2"
+                            },
+                            {
+                                "value": "600",
+                                "label": "t:settings_schema.typography.settings.font_weight.options__3"
+                            },
+                            {
+                                "value": "700",
+                                "label": "t:settings_schema.typography.settings.font_weight.options__4"
+                            }, {
+                                "value": "800",
+                                "label": "t:settings_schema.typography.settings.font_weight.options__5"
+                            }, {
+                                "value": "900",
+                                "label": "t:settings_schema.typography.settings.font_weight.options__6"
+                            }
+                        ]
                     },
                     {
                         "type": "text",

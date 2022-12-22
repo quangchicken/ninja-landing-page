@@ -3451,3 +3451,11 @@ quantity-input.disabled {
         display: none !important;
     }
 }
+
+.product-form__platform {
+    margin-top: 15px;
+}
+
+.product-form__platform .product-form__submit {
+    margin-bottom: 15px;
+}

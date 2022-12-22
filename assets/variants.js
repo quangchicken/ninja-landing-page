@@ -47,10 +47,7 @@ class VariantSelects extends HTMLElement {
     }
 
     updateOptions() {
-        this.options = Array.from(
-            this.querySelectorAll("select"),
-            (select) => select.value
-        );
+        this.options = Array.from(this.querySelectorAll("select"), (select) => select.value);
     }
 
     decodeOptions() {
@@ -62,11 +59,7 @@ class VariantSelects extends HTMLElement {
 
     decodeOption(option) {
         if (option) {
-            return option
-                .split("Special_Double_Quote")
-                .join('"')
-                .split("Special_Slash")
-                .join("/");
+            return option.split("Special_Double_Quote").join('"').split("Special_Slash").join("/");
         } else {
             return null;
         }
@@ -74,11 +67,7 @@ class VariantSelects extends HTMLElement {
 
     encodeOption(option) {
         if (option) {
-            return option
-                .split('"')
-                .join("Special_Double_Quote")
-                .split("/")
-                .join("Special_Slash");
+            return option.split('"').join("Special_Double_Quote").split("/").join("Special_Slash");
         } else {
             return null;
         }
@@ -96,12 +85,9 @@ class VariantSelects extends HTMLElement {
     }
 
     updateMedia(time) {
-        if (!this.currentVariant || !this.currentVariant?.featured_media)
-            return;
+        if (!this.currentVariant || !this.currentVariant?.featured_media) return;
 
-        const newMedia = document.querySelectorAll(
-            `[data-media-id="${this.dataset.section}-${this.currentVariant.featured_media.id}"]`
-        );
+        const newMedia = document.querySelectorAll(`[data-media-id="${this.dataset.section}-${this.currentVariant.featured_media.id}"]`);
 
         if (!newMedia) return;
         window.setTimeout(() => {
@@ -110,9 +96,7 @@ class VariantSelects extends HTMLElement {
 
         if (!this.isFullWidth) return;
 
-        const mediaToReplace = document.querySelector(
-            '.productView-image[data-index="1"]'
-        );
+        const mediaToReplace = document.querySelector('.productView-image[data-index="1"]');
         const imageToReplace = mediaToReplace.querySelector("img");
 
         if (!this.currentVariant) return;
@@ -133,16 +117,9 @@ class VariantSelects extends HTMLElement {
     }
 
     scrollToBlock(block) {
-        const headerHeight = document
-            .querySelector('[id^="shopify-section-header"]')
-            .getBoundingClientRect().height;
-        const announcementBarHeight = document
-            .getElementById("shopify-section-announcement-bar")
-            .getBoundingClientRect().height;
-        const positionTop =
-            block.getBoundingClientRect().top -
-            headerHeight -
-            announcementBarHeight;
+        const headerHeight = document.querySelector('[id^="shopify-section-header"]').getBoundingClientRect().height;
+        const announcementBarHeight = document.getElementById("shopify-section-announcement-bar").getBoundingClientRect().height;
+        const positionTop = block.getBoundingClientRect().top - headerHeight - announcementBarHeight;
 
         window.scrollTo({
             top: positionTop,
@@ -152,11 +129,7 @@ class VariantSelects extends HTMLElement {
 
     updateURL() {
         if (!this.currentVariant) return;
-        window.history.replaceState(
-            {},
-            "",
-            `${this.dataset.url}?variant=${this.currentVariant.id}`
-        );
+        window.history.replaceState({}, "", `${this.dataset.url}?variant=${this.currentVariant.id}`);
     }
 
     updateVariantInput() {
@@ -172,9 +145,7 @@ class VariantSelects extends HTMLElement {
     }
 
     updatePickupAvailability() {
-        const pickUpAvailability = document.querySelector(
-            "pickup-availability"
-        );
+        const pickUpAvailability = document.querySelector("pickup-availability");
         if (!pickUpAvailability) return;
 
         if (this.currentVariant?.available) {
@@ -186,16 +157,11 @@ class VariantSelects extends HTMLElement {
     }
 
     renderProductAjaxInfo() {
-        fetch(
-            `${this.dataset.url}?variant=${this.currentVariant.id}&section_id=${this.dataset.section}`
-        )
+        fetch(`${this.dataset.url}?variant=${this.currentVariant.id}&section_id=${this.dataset.section}`)
             .then((response) => response.text())
             .then((responseText) => {
                 const id = `product-price-${this.dataset.product}`;
-                const html = new DOMParser().parseFromString(
-                    responseText,
-                    "text/html"
-                );
+                const html = new DOMParser().parseFromString(responseText, "text/html");
                 const destination = document.getElementById(id);
                 const source = html.getElementById(id);
 
@@ -208,23 +174,14 @@ class VariantSelects extends HTMLElement {
                 }
 
                 if (this.checkNeedToConvertCurrency()) {
-                    let currencyCode = document
-                        .getElementById("currencies")
-                        ?.querySelector(".active")
-                        ?.getAttribute("data-currency");
+                    let currencyCode = document.getElementById("currencies")?.querySelector(".active")?.getAttribute("data-currency");
 
-                    Currency.convertAll(
-                        window.shop_currency,
-                        currencyCode,
-                        "span.money",
-                        "money_format"
-                    );
+                    Currency.convertAll(window.shop_currency, currencyCode, "span.money", "money_format");
                 }
 
                 if (destinationProperty) {
                     if (sourceProperty) {
-                        destinationProperty.innerHTML =
-                            sourceProperty.innerHTML;
+                        destinationProperty.innerHTML = sourceProperty.innerHTML;
                         destinationProperty.style.display = "table";
                     } else {
                         destinationProperty.style.display = "none";
@@ -232,15 +189,10 @@ class VariantSelects extends HTMLElement {
                 } else if (sourceProperty) {
                     document
                         .querySelector(".productView-product")
-                        .insertBefore(
-                            sourceProperty,
-                            document.querySelector(".productView-options")
-                        );
+                        .insertBefore(sourceProperty, document.querySelector(".productView-options"));
                 }
 
-                document
-                    .getElementById(`product-price-${this.dataset.product}`)
-                    ?.classList.remove("visibility-hidden");
+                document.getElementById(`product-price-${this.dataset.product}`)?.classList.remove("visibility-hidden");
             });
     }
 
@@ -254,9 +206,7 @@ class VariantSelects extends HTMLElement {
             selectedOption3 = this.currentVariant?.option3,
             options = this.item.find(".product-form__input"),
             optionsLength = options.length,
-            pvOptionsLength = this.item.find(
-                ".productView-details .product-form__input"
-            ).length,
+            pvOptionsLength = this.item.find(".productView-details .product-form__input").length,
             checkStickyVariant = false;
 
         // let parsedSelectedOption1 = selectedOption1 ? parseDoubleQuote(selectedOption1) : null,
@@ -271,14 +221,10 @@ class VariantSelects extends HTMLElement {
 
             switch (position) {
                 case 0:
-                    $(element)
-                        .find("[data-header-option]")
-                        .text(selectedOption1);
+                    $(element).find("[data-header-option]").text(selectedOption1);
 
                     if (type == "set-select") {
-                        var selectList = $(element).find(
-                            ".select__select option"
-                        );
+                        var selectList = $(element).find(".select__select option");
 
                         selectList.each((idx, elt) => {
                             if (elt.value == selectedOption1) {
@@ -288,15 +234,9 @@ class VariantSelects extends HTMLElement {
                             }
                         });
                     } else {
+                        $(element).find(".product-form__radio").prop("checked", false);
                         $(element)
-                            .find(".product-form__radio")
-                            .prop("checked", false);
-                        $(element)
-                            .find(
-                                `.product-form__radio[value="${this.encodeOption(
-                                    selectedOption1
-                                )}"]`
-                            )
+                            .find(`.product-form__radio[value="${this.encodeOption(selectedOption1)}"]`)
                             .prop("checked", true);
                     }
 
@@ -307,85 +247,54 @@ class VariantSelects extends HTMLElement {
                     if (selectedOption2) {
                         var inputList = $(options[1]),
                             input = inputList.find(".product-form__radio"),
-                            selectOption = inputList.find(
-                                ".select__select option"
-                            );
+                            selectOption = inputList.find(".select__select option");
 
                         if (checkStickyVariant) {
-                            var inputListSticky = $(
-                                    options[1 + pvOptionsLength]
-                                ),
-                                inputSticky = inputListSticky.find(
-                                    ".product-form__radio"
-                                ),
-                                selectOptionSticky = inputListSticky.find(
-                                    ".select__select option"
-                                );
+                            var inputListSticky = $(options[1 + pvOptionsLength]),
+                                inputSticky = inputListSticky.find(".product-form__radio"),
+                                selectOptionSticky = inputListSticky.find(".select__select option");
                         }
 
                         if (type == "set-rectangle") {
                             input.each((idx, elt) => {
                                 var $input = $(elt),
                                     $label = $input.next(),
-                                    optionValue = this.decodeOption(
-                                        $(elt).val()
-                                    );
+                                    optionValue = this.decodeOption($(elt).val());
 
-                                var optionSoldout = option1List.find(
-                                    (variant) => {
-                                        return variant.option2 == optionValue;
-                                    }
-                                );
+                                var optionSoldout = option1List.find((variant) => {
+                                    return variant.option2 == optionValue;
+                                });
 
                                 if (optionSoldout == undefined) {
-                                    $label
-                                        .removeClass("available")
-                                        .addClass("soldout");
+                                    $label.removeClass("available").addClass("soldout");
                                     if (checkStickyVariant) {
-                                        $(inputSticky[idx])
-                                            .next()
-                                            .removeClass("available")
-                                            .addClass("soldout");
+                                        $(inputSticky[idx]).next().removeClass("available").addClass("soldout");
                                     }
                                 } else {
-                                    $label
-                                        .removeClass("soldout")
-                                        .addClass("available");
+                                    $label.removeClass("soldout").addClass("available");
                                     if (checkStickyVariant) {
-                                        $(inputSticky[idx])
-                                            .next()
-                                            .removeClass("soldout")
-                                            .addClass("available");
+                                        $(inputSticky[idx]).next().removeClass("soldout").addClass("available");
                                     }
                                 }
                             });
                         } else {
                             selectOption.each((idx, elt) => {
                                 var $option = $(elt),
-                                    optionValue = this.decodeOption(
-                                        $(elt).val()
-                                    );
+                                    optionValue = this.decodeOption($(elt).val());
 
-                                var optionSoldout = option1List.find(
-                                    (variant) => {
-                                        return variant.option2 == optionValue;
-                                    }
-                                );
+                                var optionSoldout = option1List.find((variant) => {
+                                    return variant.option2 == optionValue;
+                                });
 
                                 if (optionSoldout == undefined) {
                                     $option.attr("disabled", true);
                                     if (checkStickyVariant) {
-                                        $(selectOptionSticky[idx]).attr(
-                                            "disabled",
-                                            true
-                                        );
+                                        $(selectOptionSticky[idx]).attr("disabled", true);
                                     }
                                 } else {
                                     $option.removeAttr("disabled");
                                     if (checkStickyVariant) {
-                                        $(selectOptionSticky[idx]).removeAttr(
-                                            "disabled"
-                                        );
+                                        $(selectOptionSticky[idx]).removeAttr("disabled");
                                     }
                                 }
                             });
@@ -395,85 +304,54 @@ class VariantSelects extends HTMLElement {
                     if (selectedOption3) {
                         var inputList = $(options[2]),
                             input = inputList.find(".product-form__radio"),
-                            selectOption = inputList.find(
-                                ".select__select option"
-                            );
+                            selectOption = inputList.find(".select__select option");
 
                         if (checkStickyVariant) {
-                            var inputListSticky = $(
-                                    options[2 + pvOptionsLength]
-                                ),
-                                inputSticky = inputListSticky.find(
-                                    ".product-form__radio"
-                                ),
-                                selectOptionSticky = inputListSticky.find(
-                                    ".select__select option"
-                                );
+                            var inputListSticky = $(options[2 + pvOptionsLength]),
+                                inputSticky = inputListSticky.find(".product-form__radio"),
+                                selectOptionSticky = inputListSticky.find(".select__select option");
                         }
 
                         if (type == "set-rectangle") {
                             input.each((idx, elt) => {
                                 var $input = $(elt),
                                     $label = $input.next(),
-                                    optionValue = this.decodeOption(
-                                        $(elt).val()
-                                    );
+                                    optionValue = this.decodeOption($(elt).val());
 
-                                var optionSoldout = option1List.find(
-                                    (variant) => {
-                                        return variant.option3 == optionValue;
-                                    }
-                                );
+                                var optionSoldout = option1List.find((variant) => {
+                                    return variant.option3 == optionValue;
+                                });
 
                                 if (optionSoldout == undefined) {
-                                    $label
-                                        .removeClass("available")
-                                        .addClass("soldout");
+                                    $label.removeClass("available").addClass("soldout");
                                     if (checkStickyVariant) {
-                                        $(inputSticky[idx])
-                                            .next()
-                                            .removeClass("available")
-                                            .addClass("soldout");
+                                        $(inputSticky[idx]).next().removeClass("available").addClass("soldout");
                                     }
                                 } else {
-                                    $label
-                                        .removeClass("soldout")
-                                        .addClass("available");
+                                    $label.removeClass("soldout").addClass("available");
                                     if (checkStickyVariant) {
-                                        $(inputSticky[idx])
-                                            .next()
-                                            .removeClass("soldout")
-                                            .addClass("available");
+                                        $(inputSticky[idx]).next().removeClass("soldout").addClass("available");
                                     }
                                 }
                             });
                         } else {
                             selectOption.each((idx, elt) => {
                                 var $option = $(elt),
-                                    optionValue = this.decodeOption(
-                                        $(elt).val()
-                                    );
+                                    optionValue = this.decodeOption($(elt).val());
 
-                                var optionSoldout = option1List.find(
-                                    (variant) => {
-                                        return variant.option3 == optionValue;
-                                    }
-                                );
+                                var optionSoldout = option1List.find((variant) => {
+                                    return variant.option3 == optionValue;
+                                });
 
                                 if (optionSoldout == undefined) {
                                     $option.attr("disabled", true);
                                     if (checkStickyVariant) {
-                                        $(selectOptionSticky[idx]).attr(
-                                            "disabled",
-                                            true
-                                        );
+                                        $(selectOptionSticky[idx]).attr("disabled", true);
                                     }
                                 } else {
                                     $option.removeAttr("disabled");
                                     if (checkStickyVariant) {
-                                        $(selectOptionSticky[idx]).removeAttr(
-                                            "disabled"
-                                        );
+                                        $(selectOptionSticky[idx]).removeAttr("disabled");
                                     }
                                 }
                             });
@@ -482,14 +360,10 @@ class VariantSelects extends HTMLElement {
 
                     break;
                 case 1:
-                    $(element)
-                        .find("[data-header-option]")
-                        .text(selectedOption2);
+                    $(element).find("[data-header-option]").text(selectedOption2);
 
                     if (type == "set-select") {
-                        var selectList = $(element).find(
-                            ".select__select option"
-                        );
+                        var selectList = $(element).find(".select__select option");
 
                         selectList.each((idx, elt) => {
                             if (elt.value == selectedOption2) {
@@ -499,15 +373,9 @@ class VariantSelects extends HTMLElement {
                             }
                         });
                     } else {
+                        $(element).find(".product-form__radio").prop("checked", false);
                         $(element)
-                            .find(".product-form__radio")
-                            .prop("checked", false);
-                        $(element)
-                            .find(
-                                `.product-form__radio[value="${this.encodeOption(
-                                    selectedOption2
-                                )}"]`
-                            )
+                            .find(`.product-form__radio[value="${this.encodeOption(selectedOption2)}"]`)
                             .prop("checked", true);
                     }
 
@@ -518,83 +386,54 @@ class VariantSelects extends HTMLElement {
                     if (selectedOption1) {
                         var inputList = $(options[0]),
                             input = inputList.find(".product-form__radio"),
-                            selectOption = inputList.find(
-                                ".select__select option"
-                            );
+                            selectOption = inputList.find(".select__select option");
 
                         if (checkStickyVariant) {
                             var inputListSticky = $(options[pvOptionsLength]),
-                                inputSticky = inputListSticky.find(
-                                    ".product-form__radio"
-                                ),
-                                selectOptionSticky = inputListSticky.find(
-                                    ".select__select option"
-                                );
+                                inputSticky = inputListSticky.find(".product-form__radio"),
+                                selectOptionSticky = inputListSticky.find(".select__select option");
                         }
 
                         if (type == "set-rectangle") {
                             input.each((idx, elt) => {
                                 var $input = $(elt),
                                     $label = $input.next(),
-                                    optionValue = this.decodeOption(
-                                        $(elt).val()
-                                    );
+                                    optionValue = this.decodeOption($(elt).val());
 
-                                var optionSoldout = option2List.find(
-                                    (variant) => {
-                                        return variant.option1 == optionValue;
-                                    }
-                                );
+                                var optionSoldout = option2List.find((variant) => {
+                                    return variant.option1 == optionValue;
+                                });
 
                                 if (optionSoldout == undefined) {
-                                    $label
-                                        .removeClass("available")
-                                        .addClass("soldout");
+                                    $label.removeClass("available").addClass("soldout");
                                     if (checkStickyVariant) {
-                                        $(inputSticky[idx])
-                                            .next()
-                                            .removeClass("available")
-                                            .addClass("soldout");
+                                        $(inputSticky[idx]).next().removeClass("available").addClass("soldout");
                                     }
                                 } else {
-                                    $label
-                                        .removeClass("soldout")
-                                        .addClass("available");
+                                    $label.removeClass("soldout").addClass("available");
                                     if (checkStickyVariant) {
-                                        $(inputSticky[idx])
-                                            .next()
-                                            .removeClass("soldout")
-                                            .addClass("available");
+                                        $(inputSticky[idx]).next().removeClass("soldout").addClass("available");
                                     }
                                 }
                             });
                         } else {
                             selectOption.each((idx, elt) => {
                                 var $option = $(elt),
-                                    optionValue = this.decodeOption(
-                                        $(elt).val()
-                                    );
+                                    optionValue = this.decodeOption($(elt).val());
 
-                                var optionSoldout = option2List.find(
-                                    (variant) => {
-                                        return variant.option1 == optionValue;
-                                    }
-                                );
+                                var optionSoldout = option2List.find((variant) => {
+                                    return variant.option1 == optionValue;
+                                });
 
                                 if (optionSoldout == undefined) {
                                     $option.attr("disabled", true);
                                     if (checkStickyVariant) {
-                                        $(inputSticky[idx]).attr(
-                                            "disabled",
-                                            true
-                                        );
+                                        $(inputSticky[idx]).attr("disabled", true);
                                     }
                                 } else {
                                     $option.removeAttr("disabled");
                                     if (checkStickyVariant) {
-                                        $(inputSticky[idx]).removeAttr(
-                                            "disabled"
-                                        );
+                                        $(inputSticky[idx]).removeAttr("disabled");
                                     }
                                 }
                             });
@@ -604,85 +443,54 @@ class VariantSelects extends HTMLElement {
                     if (selectedOption3) {
                         var inputList = $(options[2]),
                             input = inputList.find(".product-form__radio"),
-                            selectOption = inputList.find(
-                                ".select__select option"
-                            );
+                            selectOption = inputList.find(".select__select option");
 
                         if (checkStickyVariant) {
-                            var inputListSticky = $(
-                                    options[2 + pvOptionsLength]
-                                ),
-                                inputSticky = inputListSticky.find(
-                                    ".product-form__radio"
-                                ),
-                                selectOptionSticky = inputListSticky.find(
-                                    ".select__select option"
-                                );
+                            var inputListSticky = $(options[2 + pvOptionsLength]),
+                                inputSticky = inputListSticky.find(".product-form__radio"),
+                                selectOptionSticky = inputListSticky.find(".select__select option");
                         }
 
                         if (type == "set-rectangle") {
                             input.each((idx, elt) => {
                                 var $input = $(elt),
                                     $label = $input.next(),
-                                    optionValue = this.decodeOption(
-                                        $(elt).val()
-                                    );
+                                    optionValue = this.decodeOption($(elt).val());
 
-                                var optionSoldout = option2List.find(
-                                    (variant) => {
-                                        return variant.option3 == optionValue;
-                                    }
-                                );
+                                var optionSoldout = option2List.find((variant) => {
+                                    return variant.option3 == optionValue;
+                                });
 
                                 if (optionSoldout == undefined) {
-                                    $label
-                                        .removeClass("available")
-                                        .addClass("soldout");
+                                    $label.removeClass("available").addClass("soldout");
                                     if (checkStickyVariant) {
-                                        $(inputSticky[idx])
-                                            .next()
-                                            .removeClass("available")
-                                            .addClass("soldout");
+                                        $(inputSticky[idx]).next().removeClass("available").addClass("soldout");
                                     }
                                 } else {
-                                    $label
-                                        .removeClass("soldout")
-                                        .addClass("available");
+                                    $label.removeClass("soldout").addClass("available");
                                     if (checkStickyVariant) {
-                                        $(inputSticky[idx])
-                                            .next()
-                                            .removeClass("soldout")
-                                            .addClass("available");
+                                        $(inputSticky[idx]).next().removeClass("soldout").addClass("available");
                                     }
                                 }
                             });
                         } else {
                             selectOption.each((idx, elt) => {
                                 var $option = $(elt),
-                                    optionValue = this.decodeOption(
-                                        $(elt).val()
-                                    );
+                                    optionValue = this.decodeOption($(elt).val());
 
-                                var optionSoldout = option2List.find(
-                                    (variant) => {
-                                        return variant.option3 == optionValue;
-                                    }
-                                );
+                                var optionSoldout = option2List.find((variant) => {
+                                    return variant.option3 == optionValue;
+                                });
 
                                 if (optionSoldout == undefined) {
                                     $option.attr("disabled", true);
                                     if (checkStickyVariant) {
-                                        $(inputSticky[idx]).attr(
-                                            "disabled",
-                                            true
-                                        );
+                                        $(inputSticky[idx]).attr("disabled", true);
                                     }
                                 } else {
                                     $option.removeAttr("disabled");
                                     if (checkStickyVariant) {
-                                        $(inputSticky[idx]).removeAttr(
-                                            "disabled"
-                                        );
+                                        $(inputSticky[idx]).removeAttr("disabled");
                                     }
                                 }
                             });
@@ -691,14 +499,10 @@ class VariantSelects extends HTMLElement {
 
                     break;
                 case 2:
-                    $(element)
-                        .find("[data-header-option]")
-                        .text(selectedOption3);
+                    $(element).find("[data-header-option]").text(selectedOption3);
 
                     if (type == "set-select") {
-                        var selectList = $(element).find(
-                            ".select__select option"
-                        );
+                        var selectList = $(element).find(".select__select option");
 
                         selectList.each((idx, elt) => {
                             if (elt.value == selectedOption3) {
@@ -708,15 +512,9 @@ class VariantSelects extends HTMLElement {
                             }
                         });
                     } else {
+                        $(element).find(".product-form__radio").prop("checked", false);
                         $(element)
-                            .find(".product-form__radio")
-                            .prop("checked", false);
-                        $(element)
-                            .find(
-                                `.product-form__radio[value="${this.encodeOption(
-                                    selectedOption3
-                                )}"]`
-                            )
+                            .find(`.product-form__radio[value="${this.encodeOption(selectedOption3)}"]`)
                             .prop("checked", true);
                     }
 
@@ -727,83 +525,54 @@ class VariantSelects extends HTMLElement {
                     if (selectedOption1) {
                         var inputList = $(options[0]),
                             input = inputList.find(".product-form__radio"),
-                            selectOption = inputList.find(
-                                ".select__select option"
-                            );
+                            selectOption = inputList.find(".select__select option");
 
                         if (checkStickyVariant) {
                             var inputListSticky = $(options[pvOptionsLength]),
-                                inputSticky = inputListSticky.find(
-                                    ".product-form__radio"
-                                ),
-                                selectOptionSticky = inputListSticky.find(
-                                    ".select__select option"
-                                );
+                                inputSticky = inputListSticky.find(".product-form__radio"),
+                                selectOptionSticky = inputListSticky.find(".select__select option");
                         }
 
                         if (type == "set-rectangle") {
                             input.each((idx, elt) => {
                                 var $input = $(elt),
                                     $label = $input.next(),
-                                    optionValue = this.decodeOption(
-                                        $(elt).val()
-                                    );
+                                    optionValue = this.decodeOption($(elt).val());
 
-                                var optionSoldout = option3List.find(
-                                    (variant) => {
-                                        return variant.option1 == optionValue;
-                                    }
-                                );
+                                var optionSoldout = option3List.find((variant) => {
+                                    return variant.option1 == optionValue;
+                                });
 
                                 if (optionSoldout == undefined) {
-                                    $label
-                                        .removeClass("available")
-                                        .addClass("soldout");
+                                    $label.removeClass("available").addClass("soldout");
                                     if (checkStickyVariant) {
-                                        $(inputSticky[idx])
-                                            .next()
-                                            .removeClass("available")
-                                            .addClass("soldout");
+                                        $(inputSticky[idx]).next().removeClass("available").addClass("soldout");
                                     }
                                 } else {
-                                    $label
-                                        .removeClass("soldout")
-                                        .addClass("available");
+                                    $label.removeClass("soldout").addClass("available");
                                     if (checkStickyVariant) {
-                                        $(inputSticky[idx])
-                                            .next()
-                                            .removeClass("soldout")
-                                            .addClass("available");
+                                        $(inputSticky[idx]).next().removeClass("soldout").addClass("available");
                                     }
                                 }
                             });
                         } else {
                             selectOption.each((idx, elt) => {
                                 var $option = $(elt),
-                                    optionValue = this.decodeOption(
-                                        $(elt).val()
-                                    );
+                                    optionValue = this.decodeOption($(elt).val());
 
-                                var optionSoldout = option3List.find(
-                                    (variant) => {
-                                        return variant.option1 == optionValue;
-                                    }
-                                );
+                                var optionSoldout = option3List.find((variant) => {
+                                    return variant.option1 == optionValue;
+                                });
 
                                 if (optionSoldout == undefined) {
                                     $option.attr("disabled", true);
                                     if (checkStickyVariant) {
-                                        $(inputSticky[idx]).attr(
-                                            "disabled",
-                                            true
-                                        );
+                                        $(inputSticky[idx]).attr("disabled", true);
                                     }
                                 } else {
                                     $option.removeAttr("disabled");
                                     if (checkStickyVariant) {
-                                        $(inputSticky[idx]).removeAttr(
-                                            "disabled"
-                                        );
+                                        $(inputSticky[idx]).removeAttr("disabled");
                                     }
                                 }
                             });
@@ -813,85 +582,54 @@ class VariantSelects extends HTMLElement {
                     if (selectedOption2) {
                         var inputList = $(options[1]),
                             input = inputList.find(".product-form__radio"),
-                            selectOption = inputList.find(
-                                ".select__select option"
-                            );
+                            selectOption = inputList.find(".select__select option");
 
                         if (checkStickyVariant) {
-                            var inputListSticky = $(
-                                    options[1 + pvOptionsLength]
-                                ),
-                                inputSticky = inputListSticky.find(
-                                    ".product-form__radio"
-                                ),
-                                selectOptionSticky = inputListSticky.find(
-                                    ".select__select option"
-                                );
+                            var inputListSticky = $(options[1 + pvOptionsLength]),
+                                inputSticky = inputListSticky.find(".product-form__radio"),
+                                selectOptionSticky = inputListSticky.find(".select__select option");
                         }
 
                         if (type == "set-rectangle") {
                             input.each((idx, elt) => {
                                 var $input = $(elt),
                                     $label = $input.next(),
-                                    optionValue = this.decodeOption(
-                                        $(elt).val()
-                                    );
+                                    optionValue = this.decodeOption($(elt).val());
 
-                                var optionSoldout = option3List.find(
-                                    (variant) => {
-                                        return variant.option2 == optionValue;
-                                    }
-                                );
+                                var optionSoldout = option3List.find((variant) => {
+                                    return variant.option2 == optionValue;
+                                });
 
                                 if (optionSoldout == undefined) {
-                                    $label
-                                        .removeClass("available")
-                                        .addClass("soldout");
+                                    $label.removeClass("available").addClass("soldout");
                                     if (checkStickyVariant) {
-                                        $(inputSticky[idx])
-                                            .next()
-                                            .removeClass("available")
-                                            .addClass("soldout");
+                                        $(inputSticky[idx]).next().removeClass("available").addClass("soldout");
                                     }
                                 } else {
-                                    $label
-                                        .removeClass("soldout")
-                                        .addClass("available");
+                                    $label.removeClass("soldout").addClass("available");
                                     if (checkStickyVariant) {
-                                        $(inputSticky[idx])
-                                            .next()
-                                            .removeClass("soldout")
-                                            .addClass("available");
+                                        $(inputSticky[idx]).next().removeClass("soldout").addClass("available");
                                     }
                                 }
                             });
                         } else {
                             selectOption.each((idx, elt) => {
                                 var $option = $(elt),
-                                    optionValue = this.decodeOption(
-                                        $(elt).val()
-                                    );
+                                    optionValue = this.decodeOption($(elt).val());
 
-                                var optionSoldout = option3List.find(
-                                    (variant) => {
-                                        return variant.option2 == optionValue;
-                                    }
-                                );
+                                var optionSoldout = option3List.find((variant) => {
+                                    return variant.option2 == optionValue;
+                                });
 
                                 if (optionSoldout == undefined) {
                                     $option.attr("disabled", true);
                                     if (checkStickyVariant) {
-                                        $(inputSticky[idx]).attr(
-                                            "disabled",
-                                            true
-                                        );
+                                        $(inputSticky[idx]).attr("disabled", true);
                                     }
                                 } else {
                                     $option.removeAttr("disabled");
                                     if (checkStickyVariant) {
-                                        $(inputSticky[idx]).removeAttr(
-                                            "disabled"
-                                        );
+                                        $(inputSticky[idx]).removeAttr("disabled");
                                     }
                                 }
                             });
@@ -903,9 +641,7 @@ class VariantSelects extends HTMLElement {
         });
 
         if (this.item.find("[data-sku]").length > 0) {
-            this.item
-                .find("[data-sku] .productView-info-value")
-                .text(this.currentVariant.sku);
+            this.item.find("[data-sku] .productView-info-value").text(this.currentVariant.sku);
         }
 
         var inventory = this.currentVariant?.inventory_management;
@@ -918,36 +654,20 @@ class VariantSelects extends HTMLElement {
                 var inven_num = inven_array[this.currentVariant.id],
                     inventoryQuantity = parseInt(inven_num);
 
-                this.item
-                    .find('input[name="quantity"]')
-                    .attr("data-inventory-quantity", inventoryQuantity);
+                this.item.find('input[name="quantity"]').attr("data-inventory-quantity", inventoryQuantity);
 
                 if (this.item.find("[data-inventory]").length > 0) {
                     if (inventoryQuantity > 0) {
-                        const showStock = this.item
-                            .find("[data-inventory]")
-                            .data("stock-level");
+                        const showStock = this.item.find("[data-inventory]").data("stock-level");
                         if (showStock == "show") {
                             this.item
-                                .find(
-                                    "[data-inventory] .productView-info-value"
-                                )
-                                .text(
-                                    inventoryQuantity +
-                                        " " +
-                                        window.inventory_text.inStock
-                                );
+                                .find("[data-inventory] .productView-info-value")
+                                .text(inventoryQuantity + " " + window.inventory_text.inStock);
                         } else {
-                            this.item
-                                .find(
-                                    "[data-inventory] .productView-info-value"
-                                )
-                                .text(window.inventory_text.inStock);
+                            this.item.find("[data-inventory] .productView-info-value").text(window.inventory_text.inStock);
                         }
                     } else {
-                        this.item
-                            .find("[data-inventory] .productView-info-value")
-                            .text(window.inventory_text.outOfStock);
+                        this.item.find("[data-inventory] .productView-info-value").text(window.inventory_text.outOfStock);
                     }
                 }
 
@@ -964,16 +684,11 @@ class VariantSelects extends HTMLElement {
     }
 
     updateProductInfo() {
-        fetch(
-            `${this.dataset.url}?variant=${this.currentVariant.id}&section_id=${this.dataset.section}`
-        )
+        fetch(`${this.dataset.url}?variant=${this.currentVariant.id}&section_id=${this.dataset.section}`)
             .then((response) => response.text())
             .then((responseText) => {
                 const description = `[data-product-description-${this.dataset.product}]`;
-                const html = new DOMParser().parseFromString(
-                    responseText,
-                    "text/html"
-                );
+                const html = new DOMParser().parseFromString(responseText, "text/html");
                 const destinationDesc = document.querySelector(description);
                 const sourceDesc = html.querySelector(description);
 
@@ -987,9 +702,7 @@ class VariantSelects extends HTMLElement {
     }
 
     updateAttribute(unavailable = true, disable = true) {
-        const addButton = document
-            .getElementById(`product-form-${this.dataset.product}`)
-            ?.querySelector('[name="add"]');
+        const addButton = document.getElementById(`product-form-${this.dataset.product}`)?.querySelector('[name="add"]');
         var quantityInput = this.item.find('input[name="quantity"]'),
             notifyMe = this.item.find(".productView-notifyMe"),
             hotStock = this.item.find(".productView-hotStock"),
@@ -1016,9 +729,7 @@ class VariantSelects extends HTMLElement {
                 quantityInput.closest("quantity-input").addClass("disabled");
 
                 if (notifyMe.length > 0) {
-                    notifyMe
-                        .find('input[name="halo-notify-product-variant"]')
-                        .val(this.currentVariant.title);
+                    notifyMe.find('input[name="halo-notify-product-variant"]').val(this.currentVariant.title);
                     notifyMe.find(".notifyMe-text").empty();
                     notifyMe.slideDown("slow");
                 }
@@ -1027,38 +738,23 @@ class VariantSelects extends HTMLElement {
                     subTotal = 0,
                     price = this.currentVariant?.price;
 
-                const stickyPrice = $(
-                    "[data-sticky-add-to-cart] .sticky-price .money"
-                );
+                const stickyPrice = $("[data-sticky-add-to-cart] .sticky-price .money");
 
                 if (window.subtotal.show) {
                     let qty = quantityInput.val();
 
                     subTotal = qty * price;
-                    subTotal = Shopify.formatMoney(
-                        subTotal,
-                        window.money_format
-                    );
+                    subTotal = Shopify.formatMoney(subTotal, window.money_format);
                     subTotal = extractContent(subTotal);
 
                     const moneySpan = document.createElement("span");
-                    moneySpan.classList.add(
-                        window.currencyFormatted ? "money" : "money-subtotal"
-                    );
+                    moneySpan.classList.add(window.currencyFormatted ? "money" : "money-subtotal");
                     moneySpan.innerText = subTotal;
                     document.body.appendChild(moneySpan);
 
                     if (this.checkNeedToConvertCurrency()) {
-                        let currencyCode = document
-                            .getElementById("currencies")
-                            ?.querySelector(".active")
-                            ?.getAttribute("data-currency");
-                        Currency.convertAll(
-                            window.shop_currency,
-                            currencyCode,
-                            "span.money",
-                            "money_format"
-                        );
+                        let currencyCode = document.getElementById("currencies")?.querySelector(".active")?.getAttribute("data-currency");
+                        Currency.convertAll(window.shop_currency, currencyCode, "span.money", "money_format");
                     }
 
                     subTotal = moneySpan.innerText;
@@ -1066,12 +762,8 @@ class VariantSelects extends HTMLElement {
 
                     if (window.subtotal.style == "1") {
                         const pdView_subTotal =
-                            document.querySelector(
-                                ".productView-subtotal .money"
-                            ) ||
-                            document.querySelector(
-                                ".productView-subtotal .money-subtotal"
-                            );
+                            document.querySelector(".productView-subtotal .money") ||
+                            document.querySelector(".productView-subtotal .money-subtotal");
                         if (pdView_subTotal != null) {
                             pdView_subTotal.textContent = subTotal;
                         }
@@ -1082,10 +774,7 @@ class VariantSelects extends HTMLElement {
                             text = window.variantStrings.addToCart;
                         }
                     } else if (window.subtotal.style == "2") {
-                        text = window.subtotal.text.replace(
-                            "[value]",
-                            subTotal
-                        );
+                        text = window.subtotal.text.replace("[value]", subTotal);
                     }
                 } else {
                     subTotal = Shopify.formatMoney(price, window.money_format);
@@ -1119,16 +808,10 @@ class VariantSelects extends HTMLElement {
             const sticky = this.item.find(".productView-stickyCart");
             const itemImage = sticky.find(".sticky-image");
             const option = sticky.find(".select__select");
-            const input = document
-                .getElementById(`product-form-sticky-${this.dataset.product}`)
-                ?.querySelector('input[name="id"]');
-            const button = document
-                .getElementById(`product-form-sticky-${this.dataset.product}`)
-                ?.querySelector('[name="add"]');
+            const input = document.getElementById(`product-form-sticky-${this.dataset.product}`)?.querySelector('input[name="id"]');
+            const button = document.getElementById(`product-form-sticky-${this.dataset.product}`)?.querySelector('[name="add"]');
             var quantityInput = this.item.find('input[name="quantity"]');
-            var maxValue = parseInt(
-                quantityInput.attr("data-inventory-quantity")
-            );
+            var maxValue = parseInt(quantityInput.attr("data-inventory-quantity"));
 
             if (unavailable) {
                 var text = window.variantStrings.unavailable;
@@ -1173,26 +856,16 @@ class VariantSelects extends HTMLElement {
     }
 
     getVariantData() {
-        this.variantData =
-            this.variantData ||
-            JSON.parse(
-                this.querySelector('[type="application/json"]').textContent
-            );
+        this.variantData = this.variantData || JSON.parse(this.querySelector('[type="application/json"]').textContent);
         return this.variantData;
     }
 
     checkNeedToConvertCurrency() {
-        return (
-            (window.show_multiple_currencies &&
-                Currency.currentCurrency != shopCurrency) ||
-            window.show_auto_currency
-        );
+        return (window.show_multiple_currencies && Currency.currentCurrency != shopCurrency) || window.show_auto_currency;
     }
 
     checkQuantityWhenVariantChange() {
-        var quantityInput = this.closest(".productView-details").querySelector(
-            "input.quantity__input"
-        );
+        var quantityInput = this.closest(".productView-details").querySelector("input.quantity__input");
         var maxValue = parseInt(quantityInput?.dataset.inventoryQuantity);
         var inputValue = parseInt(quantityInput?.value);
 
@@ -1210,44 +883,45 @@ class VariantSelects extends HTMLElement {
             quantityInput.value = value;
         }
 
-        document.getElementById("product-add-to-cart").dataset.available =
-            this.currentVariant.available && maxValue <= 0;
+        document.getElementById("product-add-to-cart").dataset.available = this.currentVariant.available && maxValue <= 0;
     }
 
     /** Update platform */
     updateUnavailableVariant() {
         const variantsPolicyJson = this.querySelector(".js-variants-json");
         if (!variantsPolicyJson) return;
-        this.unavailableVariants =
-            this.unavailableVariants ||
-            JSON.parse(variantsPolicyJson.innerHTML);
+        this.unavailableVariants = this.unavailableVariants || JSON.parse(variantsPolicyJson.innerHTML);
     }
 
     toggleBuyPlatform() {
-        const productForm = document.querySelector(
-            `#product-form-${this.dataset.product}`
-        );
-        const addButton = productForm.querySelector(
-            '#product-add-to-cart[name="add"]'
-        );
-        const buyPlatformBtn = productForm.querySelector(".js-buy-platform");
+        const productForm = document.querySelector(`#product-form-${this.dataset.product}`);
+        const addButton = productForm.querySelector('#product-add-to-cart[name="add"]');
+        const paymentButton = productForm.querySelector(".js-button-payment");
+        const buyPlatformBtns = document.querySelector(`.js-platform-page-${this.dataset.product}`).querySelectorAll(".js-buy-platform");
 
-        if (!addButton || !buyPlatformBtn || !this.unavailableVariants) return;
+        if (!addButton || !buyPlatformBtns || !this.unavailableVariants) return;
 
         if (!this.currentVariant) {
             addButton.classList.add("hidden");
-            buyPlatformBtn.classList.remove("hidden");
+            paymentButton.classList.add("hidden");
+            buyPlatformBtns.forEach((btn) => {
+                btn.classList.remove("hidden");
+            });
         } else {
-            const isUnavailableVariant = this.unavailableVariants.find(
-                (variant) => variant.id === this.currentVariant.id
-            );
+            const isUnavailableVariant = this.unavailableVariants.find((variant) => variant.id === this.currentVariant.id);
 
             if (isUnavailableVariant || !this.currentVariant.available) {
                 addButton.classList.add("hidden");
-                buyPlatformBtn.classList.remove("hidden");
+                paymentButton.classList.add("hidden");
+                buyPlatformBtns.forEach((btn) => {
+                    btn.classList.remove("hidden");
+                });
             } else {
                 addButton.classList.remove("hidden");
-                buyPlatformBtn.classList.add("hidden");
+                paymentButton.classList.remove("hidden");
+                buyPlatformBtns.forEach((btn) => {
+                    btn.classList.add("hidden");
+                });
             }
         }
     }
@@ -1263,9 +937,7 @@ class VariantRadios extends VariantSelects {
     updateOptions() {
         const fieldsets = Array.from(this.querySelectorAll("fieldset"));
         this.options = fieldsets.map((fieldset) => {
-            return Array.from(fieldset.querySelectorAll("input")).find(
-                (radio) => radio.checked
-            ).value;
+            return Array.from(fieldset.querySelectorAll("input")).find((radio) => radio.checked).value;
         });
     }
 }
@@ -1279,9 +951,7 @@ class QuantityInput extends HTMLElement {
         this.changeEvent = new Event("change", { bubbles: true });
         this.input.addEventListener("change", this.onInputChange.bind(this));
 
-        this.querySelectorAll("button").forEach((button) =>
-            button.addEventListener("click", this.onButtonClick.bind(this))
-        );
+        this.querySelectorAll("button").forEach((button) => button.addEventListener("click", this.onButtonClick.bind(this)));
 
         if (!this.checkHasMultipleVariants()) {
             this.initProductQuantity();
@@ -1293,15 +963,9 @@ class QuantityInput extends HTMLElement {
         event.preventDefault();
         var inputValue = this.input.value;
         var maxValue = parseInt(this.input.dataset.inventoryQuantity);
-        var currentId = document
-            .getElementById(`product-form-${this.input.dataset.product}`)
-            ?.querySelector('[name="id"]')?.value;
-        var saleOutStock =
-            document.getElementById("product-add-to-cart").dataset.available ===
-                "true" || false;
-        const addButton = document
-            .getElementById(`product-form-${this.input.dataset.product}`)
-            ?.querySelector('[name="add"]');
+        var currentId = document.getElementById(`product-form-${this.input.dataset.product}`)?.querySelector('[name="id"]')?.value;
+        var saleOutStock = document.getElementById("product-add-to-cart").dataset.available === "true" || false;
+        const addButton = document.getElementById(`product-form-${this.input.dataset.product}`)?.querySelector('[name="add"]');
 
         if (inputValue < 1) {
             inputValue = 1;
@@ -1336,23 +1000,13 @@ class QuantityInput extends HTMLElement {
             subTotal = extractContent(subTotal);
 
             const moneySpan = document.createElement("span");
-            moneySpan.classList.add(
-                window.currencyFormatted ? "money" : "money-subtotal"
-            );
+            moneySpan.classList.add(window.currencyFormatted ? "money" : "money-subtotal");
             moneySpan.innerText = subTotal;
             document.body.appendChild(moneySpan);
 
             if (this.checkNeedToConvertCurrency()) {
-                let currencyCode = document
-                    .getElementById("currencies")
-                    ?.querySelector(".active")
-                    ?.getAttribute("data-currency");
-                Currency.convertAll(
-                    window.shop_currency,
-                    currencyCode,
-                    "span.money",
-                    "money_format"
-                );
+                let currencyCode = document.getElementById("currencies")?.querySelector(".active")?.getAttribute("data-currency");
+                Currency.convertAll(window.shop_currency, currencyCode, "span.money", "money_format");
             }
 
             subTotal = moneySpan.innerText;
@@ -1361,9 +1015,7 @@ class QuantityInput extends HTMLElement {
             if (window.subtotal.style == "1") {
                 const pdView_subTotal =
                     document.querySelector(".productView-subtotal .money") ||
-                    document.querySelector(
-                        ".productView-subtotal .money-subtotal"
-                    );
+                    document.querySelector(".productView-subtotal .money-subtotal");
 
                 pdView_subTotal.textContent = subTotal;
             } else if (window.subtotal.style == "2") {
@@ -1372,46 +1024,25 @@ class QuantityInput extends HTMLElement {
                 addButton.textContent = text;
             }
 
-            const stickyPrice = $(
-                "[data-sticky-add-to-cart] .sticky-price .money"
-            );
+            const stickyPrice = $("[data-sticky-add-to-cart] .sticky-price .money");
 
             if (stickyPrice.length) {
                 stickyPrice.text(subTotal);
             }
         }
 
-        if (
-            this.classList.contains("quantity__group--2") ||
-            this.classList.contains("quantity__group--3")
-        ) {
-            const mainQty = document.querySelector(
-                ".quantity__group--1 .quantity__input"
-            );
+        if (this.classList.contains("quantity__group--2") || this.classList.contains("quantity__group--3")) {
+            const mainQty = document.querySelector(".quantity__group--1 .quantity__input");
             mainQty.value = inputValue;
 
-            const mainQty2Exists = !!document.querySelector(
-                ".quantity__group--2 .quantity__input"
-            );
-            const mainQty3Exists = !!document.querySelector(
-                ".quantity__group--3 .quantity__input"
-            );
+            const mainQty2Exists = !!document.querySelector(".quantity__group--2 .quantity__input");
+            const mainQty3Exists = !!document.querySelector(".quantity__group--3 .quantity__input");
 
-            if (
-                this.classList.contains("quantity__group--2") &&
-                mainQty3Exists
-            ) {
-                const mainQty3 = document.querySelector(
-                    ".quantity__group--3 .quantity__input"
-                );
+            if (this.classList.contains("quantity__group--2") && mainQty3Exists) {
+                const mainQty3 = document.querySelector(".quantity__group--3 .quantity__input");
                 mainQty3.value = inputValue;
-            } else if (
-                this.classList.contains("quantity__group--3") &&
-                mainQty2Exists
-            ) {
-                const mainQty2 = document.querySelector(
-                    ".quantity__group--2 .quantity__input"
-                );
+            } else if (this.classList.contains("quantity__group--3") && mainQty2Exists) {
+                const mainQty2 = document.querySelector(".quantity__group--2 .quantity__input");
                 mainQty2.value = inputValue;
             }
         }
@@ -1421,25 +1052,16 @@ class QuantityInput extends HTMLElement {
         event.preventDefault();
         const previousValue = this.input.value;
 
-        event.target.name === "plus"
-            ? this.input.stepUp()
-            : this.input.stepDown();
-        if (previousValue !== this.input.value)
-            this.input.dispatchEvent(this.changeEvent);
+        event.target.name === "plus" ? this.input.stepUp() : this.input.stepDown();
+        if (previousValue !== this.input.value) this.input.dispatchEvent(this.changeEvent);
     }
 
     checkNeedToConvertCurrency() {
-        return (
-            (window.show_multiple_currencies &&
-                Currency.currentCurrency != shopCurrency) ||
-            window.show_auto_currency
-        );
+        return (window.show_multiple_currencies && Currency.currentCurrency != shopCurrency) || window.show_auto_currency;
     }
 
     checkHasMultipleVariants() {
-        const arrayInVarName = `product_inven_array_${
-            this.querySelector("[data-product]").dataset.product
-        }`;
+        const arrayInVarName = `product_inven_array_${this.querySelector("[data-product]").dataset.product}`;
         this.inven_array = window[arrayInVarName];
         return Object.keys(this.inven_array).length > 1;
     }
@@ -1449,13 +1071,8 @@ class QuantityInput extends HTMLElement {
             var inven_num = Object.values(this.inven_array),
                 inventoryQuantity = parseInt(inven_num);
 
-            this.querySelector('input[name="quantity"]').setAttribute(
-                "data-inventory-quantity",
-                inventoryQuantity
-            );
-            this.querySelector(
-                'input[name="quantity"]'
-            ).dataset.inventoryQuantity = inventoryQuantity;
+            this.querySelector('input[name="quantity"]').setAttribute("data-inventory-quantity", inventoryQuantity);
+            this.querySelector('input[name="quantity"]').dataset.inventoryQuantity = inventoryQuantity;
 
             // if(this.find('[data-inventory]').length > 0){
             //     if(inventoryQuantity > 0){
@@ -1481,13 +1098,7 @@ class QuantityInput extends HTMLElement {
     }
 
     getVariantData() {
-        this.variantData =
-            this.variantData ||
-            JSON.parse(
-                document.querySelector(
-                    '.product-option [type="application/json"]'
-                ).textContent
-            );
+        this.variantData = this.variantData || JSON.parse(document.querySelector('.product-option [type="application/json"]').textContent);
         return this.variantData;
     }
 }
@@ -1504,14 +1115,8 @@ function hotStock(inventoryQuantity) {
 
         if (inventoryQuantity > 0 && inventoryQuantity <= maxStock) {
             hotStock.matches(".style-2")
-                ? (textStock = window.inventory_text.hotStock2.replace(
-                      "[inventory]",
-                      inventoryQuantity
-                  ))
-                : (textStock = window.inventory_text.hotStock.replace(
-                      "[inventory]",
-                      inventoryQuantity
-                  ));
+                ? (textStock = window.inventory_text.hotStock2.replace("[inventory]", inventoryQuantity))
+                : (textStock = window.inventory_text.hotStock.replace("[inventory]", inventoryQuantity));
             hotStockText.innerHTML = textStock;
             hotStock.classList.remove("is-hide");
         } else {
@@ -1520,20 +1125,14 @@ function hotStock(inventoryQuantity) {
 
         if (hotStock.matches(".style-2")) {
             const invenProgress = (inventoryQuantity / maxStock) * 100,
-                hotStockProgressItem = hotStock.querySelector(
-                    ".hotStock-progress-item"
-                );
+                hotStockProgressItem = hotStock.querySelector(".hotStock-progress-item");
             hotStockProgressItem.style.width = `${invenProgress}%`;
         }
     }
 }
-const hotStockNoOptions = document.querySelector(
-    ".productView .productView-hotStock[data-current-inventory]"
-);
+const hotStockNoOptions = document.querySelector(".productView .productView-hotStock[data-current-inventory]");
 if (hotStockNoOptions) {
-    const inventoryQuantity = parseFloat(
-        hotStockNoOptions.dataset.currentInventory
-    );
+    const inventoryQuantity = parseFloat(hotStockNoOptions.dataset.currentInventory);
     hotStock(inventoryQuantity);
 }
 
@@ -1541,9 +1140,7 @@ function showWarning(content, time = null) {
     if (window.warningTimeout) {
         clearTimeout(window.warningTimeout);
     }
-    const warningPopupContent = document
-        .getElementById("halo-warning-popup")
-        .querySelector("[data-halo-warning-content]");
+    const warningPopupContent = document.getElementById("halo-warning-popup").querySelector("[data-halo-warning-content]");
     warningPopupContent.textContent = content;
     document.body.classList.add("has-warning");
 
@@ -1555,9 +1152,6 @@ function showWarning(content, time = null) {
 }
 
 function getInputMessage(maxValue) {
-    var message = window.cartStrings.addProductOutQuantity.replace(
-        "[maxQuantity]",
-        maxValue
-    );
+    var message = window.cartStrings.addProductOutQuantity.replace("[maxQuantity]", maxValue);
     return message;
 }
