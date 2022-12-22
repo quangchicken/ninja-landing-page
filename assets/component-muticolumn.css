@@ -70,9 +70,6 @@
   .muticolumn__content .spotlight-inner .sub_title {
     font-size: var(--fontsize-text-style); } }
 
-.muticolumn__content .title {
-  font-family: "Holiday"; }
-
 .muticolumn__content .spotlight-button {
   letter-spacing: 2px;
   margin-bottom: 20px; }
