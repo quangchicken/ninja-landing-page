@@ -67,7 +67,7 @@
                                    --atc-border-color-hover: {{ atc_border_color_hover }}"
                         >
                             <input type="hidden" name="id" value="{{ current_variant.id }}">
-                            <div class="product-form__buttons">
+                            <div class="product-form__buttons{% if amazon_metafield != blank or barnes_metafield != blank%} hidden{% endif %}">
                                 {% comment %}
                                     SHOW ADD TO CART IF NOTHING IN METAFIELDS
                                 {% endcomment %}

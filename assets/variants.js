@@ -911,7 +911,7 @@ class VariantSelects extends HTMLElement {
             const isUnavailableVariant = this.unavailableVariants.find((variant) => variant.id === this.currentVariant.id);
 
             if (isUnavailableVariant || !this.currentVariant.available) {
-                addButton.classList.add("hidden");
+                // addButton.classList.add("hidden");
                 paymentButton.classList.add("hidden");
                 buyPlatformBtns.forEach((btn) => {
                     btn.classList.remove("hidden");
